@@ -1,0 +1,505 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 109,
+        "CNTY_NAME": "BROWN",
+        "MCD_FIPS": 5500931000,
+        "MCD_NAME": "Green Bay",
+        "Pop_1850": "City",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9897,
+          44.5149
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 356,
+        "CNTY_NAME": "DANE",
+        "MCD_FIPS": 5502548000,
+        "MCD_NAME": "Madison",
+        "Pop_1850": "City",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.3911,
+          43.0807
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 511,
+        "CNTY_NAME": "EAU CLAIRE",
+        "MCD_FIPS": 5503522300,
+        "MCD_NAME": "Eau Claire",
+        "Pop_1850": "Non",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -91.4951,
+          44.82
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 543,
+        "CNTY_NAME": "FOND DU LAC",
+        "MCD_FIPS": 5503926275,
+        "MCD_NAME": "Fond Du Lac",
+        "Pop_1850": "Non",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.4395,
+          43.7702
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 799,
+        "CNTY_NAME": "KENOSHA",
+        "MCD_FIPS": 5505939225,
+        "MCD_NAME": "Kenosha",
+        "Pop_1850": "City",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8764,
+          42.5863
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 833,
+        "CNTY_NAME": "LA CROSSE",
+        "MCD_FIPS": 5506340775,
+        "MCD_NAME": "La Crosse",
+        "Pop_1850": "Non",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -91.2267,
+          43.8242
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 993,
+        "CNTY_NAME": "MARATHON",
+        "MCD_FIPS": 5507384475,
+        "MCD_NAME": "Wausau",
+        "Pop_1850": "Non",
+        "Pop_1870": "Non",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.6461,
+          44.962
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1050,
+        "CNTY_NAME": "MILWAUKEE",
+        "MCD_FIPS": 5507931175,
+        "MCD_NAME": "Greenfield",
+        "Pop_1850": "Town",
+        "Pop_1870": "Town",
+        "Pop_1890": "Town",
+        "Pop_1910": "Town",
+        "Pop_1930": "Town",
+        "Pop_1950": "Town",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0051,
+          42.9619
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1052,
+        "CNTY_NAME": "MILWAUKEE",
+        "MCD_FIPS": 5507953000,
+        "MCD_NAME": "Milwaukee",
+        "Pop_1850": "City",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9672,
+          43.0642
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1058,
+        "CNTY_NAME": "MILWAUKEE",
+        "MCD_FIPS": 5507984675,
+        "MCD_NAME": "Wauwatosa",
+        "Pop_1850": "Town",
+        "Pop_1870": "Town",
+        "Pop_1890": "Town",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0347,
+          43.0616
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1059,
+        "CNTY_NAME": "MILWAUKEE",
+        "MCD_FIPS": 5507985300,
+        "MCD_NAME": "West Allis",
+        "Pop_1850": "Non",
+        "Pop_1870": "Non",
+        "Pop_1890": "Non",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0296,
+          43.0068
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1148,
+        "CNTY_NAME": "OUTAGAMIE",
+        "MCD_FIPS": 5508702375,
+        "MCD_NAME": "Appleton",
+        "Pop_1850": "Non",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.3892,
+          44.2777
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1329,
+        "CNTY_NAME": "RACINE",
+        "MCD_FIPS": 5510166000,
+        "MCD_NAME": "Racine",
+        "Pop_1850": "City",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8129,
+          42.7275
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1361,
+        "CNTY_NAME": "ROCK",
+        "MCD_FIPS": 5510506500,
+        "MCD_NAME": "Beloit",
+        "Pop_1850": "Non",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.0183,
+          42.5231
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1373,
+        "CNTY_NAME": "ROCK",
+        "MCD_FIPS": 5510537825,
+        "MCD_NAME": "Janesville",
+        "Pop_1850": "Non",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.0137,
+          42.6855
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1576,
+        "CNTY_NAME": "SHEBOYGAN",
+        "MCD_FIPS": 5511772975,
+        "MCD_NAME": "Sheboygan",
+        "Pop_1850": "Non",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.7315,
+          43.7404
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1761,
+        "CNTY_NAME": "WAUKESHA",
+        "MCD_FIPS": 5513310025,
+        "MCD_NAME": "Brookfield",
+        "Pop_1850": "Town",
+        "Pop_1870": "Town",
+        "Pop_1890": "Town",
+        "Pop_1910": "Town",
+        "Pop_1930": "Town",
+        "Pop_1950": "Town",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1232,
+          43.0641
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1784,
+        "CNTY_NAME": "WAUKESHA",
+        "MCD_FIPS": 5513356375,
+        "MCD_NAME": "New Berlin",
+        "Pop_1850": "Town",
+        "Pop_1870": "Town",
+        "Pop_1890": "Town",
+        "Pop_1910": "Town",
+        "Pop_1930": "Town",
+        "Pop_1950": "Town",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1291,
+          42.9726
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1796,
+        "CNTY_NAME": "WAUKESHA",
+        "MCD_FIPS": 5513384250,
+        "MCD_NAME": "Waukesha",
+        "Pop_1850": "Non",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2464,
+          43.0087
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1871,
+        "CNTY_NAME": "WINNEBAGO",
+        "MCD_FIPS": 5513960500,
+        "MCD_NAME": "Oshkosh",
+        "Pop_1850": "Non",
+        "Pop_1870": "City",
+        "Pop_1890": "City",
+        "Pop_1910": "City",
+        "Pop_1930": "City",
+        "Pop_1950": "City",
+        "Pop_1970": "City",
+        "Pop_1990": "City",
+        "Pop_2010": "City"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.5621,
+          44.0228
+        ]
+      }
+    }
+  ]
+}
