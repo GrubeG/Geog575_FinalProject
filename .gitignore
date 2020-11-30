@@ -1,2 +1,5 @@
 
 *.ActiveLayers
+lib/leaflet/Leaflet.Control.Appearance/
+lib/leaflet/leaflet-ajax/
+lib/leaflet/leaflet-ajax - Copy/
