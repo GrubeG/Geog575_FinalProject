@@ -32,7 +32,19 @@ function createMap(){
 		weight: 2,
 		fillOpacity: 0};
     
-    var PointsOfInterest = new L.GeoJSON.AJAX("data/NP_POI.geojson", {style: POIStyle});
+    //var PointsOfInterest = new L.GeoJSON.AJAX("data/NP_POI.geojson", {style: POIStyle});
+    
+    var PointsOfInterest = new L.geoJson();
+
+        $.ajax({
+        dataType: "json",
+        url: "data/NP_POI.geojson",
+        success: function(data) {
+            $(data.features).each(function(key, data) {
+                PointsOfInterest.addData(data);
+            });
+        }
+        })
     
     var TrailStyle = 
         {color: "green",
@@ -40,7 +52,19 @@ function createMap(){
 		weight: 2,
 		fillOpacity: 0};
     
-    var Trails = new L.GeoJSON.AJAX("data/NPTrails.geojson", {style: TrailStyle});
+    //var Trails = new L.GeoJSON.AJAX("data/NPTrails.geojson", {style: TrailStyle});
+    
+    var Trails = new L.geoJson();
+
+        $.ajax({
+        dataType: "json",
+        url: "data/NPTrails.geojson",
+        success: function(data) {
+            $(data.features).each(function(key, data) {
+                Trails.addData(data);
+            });
+        }
+        })
     
     var overlayMaps = {
     "Points of Interest": PointsOfInterest,
