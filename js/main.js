@@ -235,16 +235,7 @@ function getData(map){
             createSequenceControls(map, attributes);
             createLegend(map, attributes);
            }
+        
     });  
-    
-    var NPTrails = 'data/NPTrails.geojson';
-    //load the data
-    $.ajax(NPTrails, {
-        dataType: "json",
-        success: function(response){
-            //create an attributes array
-            var attributes = processData(response);
-        }
-    });
 }
 
