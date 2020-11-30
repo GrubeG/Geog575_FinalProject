@@ -25,18 +25,39 @@ function createMap(){
     "Topographic": Esri_NatGeoWorldMap,
     "Streets": OpenStreetMap_Mapnik
     };
+        
+    var POIStyle = 
+        {color: "blue",
+		opacity: 0.25,
+		weight: 2,
+		fillOpacity: 0};
+    
+    var PointsOfInterest = new L.GeoJSON.AJAX("data/NP_POI.geojson", {style: POIStyle});
+    
+    var TrailStyle = 
+        {color: "green",
+		opacity: 1,
+		weight: 2,
+		fillOpacity: 0};
+    
+    var Trails = new L.GeoJSON.AJAX("data/NPTrails.geojson", {style: TrailStyle});
+    
+    var overlayMaps = {
+    "Points of Interest": PointsOfInterest,
+    "Trails": Trails
+};
     
     //create the map
     var map = L.map('mapid', {
-        center: [44.5, -90],
-        zoom: 7,
+        center: [46.5, -100],
+        zoom: 4,
         layers: [CartoDB_Positron]
     });
       
     //call getData function
     getData(map);
     
-    L.control.layers(baseMaps).addTo(map);
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
 };
 
 $(document).ready(createMap);

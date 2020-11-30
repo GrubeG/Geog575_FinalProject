@@ -2,7 +2,7 @@
 <html>
 <head>
 	
-	<title>Lab 1 - Leaflet</title>
+	<title>National Parks through the Years</title>
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,14 +20,12 @@
 <div id="mapid"></div>
     
 <div id="panel" class="text1">
-    <h3>Growth of Wisconsin's Twenty Biggest Cities</h3>
-    		<h5><p>Since Wisconsin became a state in 1848, there have been seventeen national censuses taken in the United States. In that time, Wisconsin's population has moved from about 300,000 in 1850 to over 5.6 million in the 2010 census.  </p>
-            <p>In 2020, a new census is taking place. I thought it would be interesting to look back at the current largest cities in Wisconsin, tracing their origins back to that 1850 census and how they've grown since they were small cities, towns and settlements. </p>
-            <p>In 1850, most of Wisconsin was sparsely settled, with most places in the state being rural, unincorporated areas and only a handful of places having more than 1,000 residents and only Milwaukee having more than 3,000. In the following decades, the population boomed and most of the current largest cities were incorporated by 1890 and had at least 10,000 residents. The exception was the Milwaukee suburbs, which didn't start growing rapidly until the mid-1900s and the City of Milwaukee, which was over ten times larger than the next largest city in 1910.</p>
-            <p>After World War II, the population trends moved toward suburban areas and the Milwaukee area saw many of its townships become substantial cities. Milwaukee itself has gotten smaller since the 1960s, while many of the other older cities grew at modest rates.</p>
-            <p>So far in the 2000s, Milwaukee and Racine continue to shrink, while the most of state's major cities grow or stay the same. Some, like Madison and Kenosha, are expanding more rapidly.</p>
+    <h3>National Parks</h3>
+    		<h5><p>Park Title  </p>
+            <p>Park Description </p>
+            <p>Park Description 2</p>
     
-    		<p><i>All population numbers from U.S. Census Bureau and Wisconsin Blue Book. Designed by Greg Grube.</p></h5> 
+    		<p><i>Link to more information</p></h5> 
         
 </div>           
 
@@ -36,10 +34,7 @@
 <div id="controls">
     
     
-    <b>Click to see indicators of location by government type:</b>
-    <button id="Cities">Show Cities for Year</button>
-    <button id="Towns">Show Towns for Year</button>
-    <button id="Unincorporated">Show Settlement Areas for Year</button>
+    <b>Click to remove layers</b>
     <button id="removeButton">Hide All</button>
 
     
@@ -50,6 +45,7 @@
     <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="lib/leaflet/leaflet-src.js"></script>
     <script type="text/javascript" src="lib/leaflet/leaflet-providers.js"></script>
+    <script type="text/javascript" src="lib/leaflet/leaflet-ajax/dist/leaflet.ajax.js"></script>
     <script type="text/javascript" src="js/geojson.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     
