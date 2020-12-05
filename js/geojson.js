@@ -38,7 +38,7 @@ function createMap(){
 
         $.ajax({
         dataType: "json",
-        url: "data/NP_POI.geojson",
+        url: "data/NationalParks_POI.geojson",
         success: function(data) {
             $(data.features).each(function(key, data) {
                 PointsOfInterest.addData(data);
