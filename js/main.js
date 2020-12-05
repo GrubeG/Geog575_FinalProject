@@ -1,241 +1,259 @@
-//function to convert markers to circle markers
-function pointToLayer(feature, latlng, attributes){
-    //Determine which attribute to visualize with proportional symbols
-    var attribute = attributes[0];
-    
-    //create marker options
-    var options = {
-        fillColor: "#01665e",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
+//style schools
+var PointsOfInterest;
 
-    //For each feature, determine its value for the selected attribute
-    var attValue = Number(feature.properties[attribute]);
-    
-    //create circle marker layer
-    var layer = L.polygon(latlng, options);
-
-    createPopup(feature.properties, attribute, layer);
-
-    //event listeners to open popup on hover
-    layer.on({
-        mouseover: function(){
-            this.openPopup();
-        },
-        mouseout: function(){
-            this.closePopup();
-        }
-    });
-
-    //return the circle marker to the L.geoJson pointToLayer option
-    return layer;
-}
-
-function createPopup(properties, attribute, layer, radius){
-    //add city to popup content string
-    var popupContent = "<p><b>Location:</b> " + properties.UNIT_NAME + "</p>";
-
-    //add formatted attribute to panel content string
-    var year = properties.YEAR;
-    
-    if (properties[attribute] >1) {
-        var popDisplay = properties[attribute];
-        } else {
-        var popDisplay = "Unincorporated";
-        }
-    
-    popupContent += "<p><b>Population in " + year + ":</b> " + popDisplay;
-
-    //replace the layer popup
-    layer.bindPopup(popupContent, {
-        offset: new L.Point(0,-radius)
-    });
+//style school markers
+var PointsOfInterestMarker = {
+    radius: 4,
+    fillColor: "#4D50F7",
+    color: "#EFEFEF",
+    weight: 1,
+    opacity: 0.8,
+    fillOpacity: 0.8,
+    zIndex: 600
 };
 
-//Add circle markers for point features to the map
-function createPropSymbols(data, map, attributes){
-    //create a Leaflet GeoJSON layer and add it to the map
-    L.geoJson(data, {
-        pointToLayer: function(feature, latlng){
-            return pointToLayer(feature, latlng, attributes);
-        }
-    }).addTo(map);
-    
-    
-    
-}
-
-//Step 1: Create new sequence controls
-function createSequenceControls(map, attributes){
-    var SequenceControl = L.Control.extend({
-        options: {
-            position: 'bottomright'
-        },
-
-        onAdd: function (map) {
-            // create the control container div with a particular class name
-            var container = L.DomUtil.create('div', 'sequence-control-container');
-
-            //create range input element (slider)
-            $(container).append('<input class="range-slider" type="range">');
-            
-            //add skip buttons
-            $(container).append('<button class="skip" id="reverse" title="Reverse">Reverse</button>');
-            $(container).append('<button class="skip" id="forward" title="Forward">Skip</button>');
-            
-            //kill any mouse event listeners on the map
-            $(container).on('mousewheel dblclick', function(e){
-                L.DomEvent.stopPropagation(e);
-                });
-            
-            $(container).mousedown(function () {
-                map.dragging.disable();
-            });
-            $(document).mouseup(function () {
-                map.dragging.enable();
-            });
-
-            return container;
-        }
-    });
-
-    map.addControl(new SequenceControl());   
-    
-    
-    //set slider attributes
-    $('.range-slider').attr({
-        max: 8,
-        min: 0,
-        value: 0,
-        step: 1
-    });
-    
-    //below Example 3.4...add skip buttons
-    
-    
-    //Below Example 3.5...replace button content with images
-    $('#reverse').html('<img src="img/reverse.png">');
-    $('#forward').html('<img src="img/forward.png">');
-    
-    
-    
-    //Below Example 3.6 in createSequenceControls()
-    //Step 5: click listener for buttons
-    $('.skip').click(function(){
-        //get the old index value
-        var index = $('.range-slider').val();
-
-        //Step 6: increment or decrement depending on button clicked
-        if ($(this).attr('id') == 'forward'){
-            index++;
-            //Step 7: if past the last attribute, wrap around to first attribute
-            index = index > 8 ? 0 : index;
-        } else if ($(this).attr('id') == 'reverse'){
-            index--;
-            //Step 7: if past the first attribute, wrap around to last attribute
-            index = index < 0 ? 8 : index;
-        }
-
-        filterControl (map, attributes, index)
-        
-        //Step 8: update slider
-        $('.range-slider').val(index);
-            
-
-    });
-
-    //Step 5: input listener for slider
-    $('.range-slider').on('input', function(){
-        //Step 6: get the new index value
-        var index = $(this).val();
-        
-        
-    });  
-    
-};
-
-
-
-function createLegend(map, attributes){
-    var LegendControl = L.Control.extend({
-        options: {
-            position: 'bottomleft'
-        },
-
-        onAdd: function (map) {
-            // create the control container with a particular class name
-            var container = L.DomUtil.create('div', 'legend-control-container');
-
-            //add temporal legend div to container
-            $(container).append('<div id="temporal-legend">')
-
-            //Step 1: start attribute legend svg string
-            var svg = '<svg id="attribute-legend" width="160px" height="100px">';
-            
-            //array of circle names to base loop on
-            var circles = {
-                max: 20,
-                mean: 55,
-                min: 90
-            };
-
-            //Step 2: loop to add each circle and text to svg string
-            for (var circle in circles){
-            //circle string
-            svg += '<circle class="legend-circle" id="' + circle + 
-            '" fill="#01665e" fill-opacity="0.8" stroke="#000000" cx="45"/>';
-            
-            //text string
-            svg += '<text id="' + circle + '-text" x="95" y="' + circles[circle] + '"></text>';
-            };
-
-            //close svg string
-            svg += "</svg>";
-
-            //add attribute legend svg to container
-            $(container).append(svg);
-
-            return container;
-        }
-    });
-
-    map.addControl(new LegendControl());
-    
-};
-
-
-//Above Example 3.8...Step 3: build an attributes array from the data
-function processData(data){
-    //empty array to hold attributes
-    var attributes = [];
-
-    //properties of the first feature in the dataset
-    var properties = data.features[0].properties;
-
-
-    return attributes;
-}
-
-
-//Import GeoJSON data
+//function to retrieve the data and place it on the map
 function getData(map){
-    var NationalParks = 'data/NationalParks.geojson';
-    //load the data
-    $.ajax(NationalParks, {
+    //load the data from the json
+    $.ajax("data/NationalParks_POI.geojson", {
         dataType: "json",
         success: function(response){
-            //create an attributes array
-            var attributes = processData(response);
-            
-            //call function to create proportional symbols
-            createPropSymbols(response, map, attributes);
-            createSequenceControls(map, attributes);
-            createLegend(map, attributes);
-           }
+            createPoints(response, map);
+            otherLayers(response, map);
+		}
+    });
+};
+
+function createPoints(data,map){
+        PointsOfInterest = L.geoJson(data, {
+                    pointToLayer: function (feature, latlng){
+                        return pointToLayer(feature, latlng);
+                    }
+                });
+        map.addLayer(PointsOfInterest);
+    };
+    
+    //create function to make the proportional symbols of a certain color, fill, opacity, etc
+    function pointToLayer(feature, latlng){	
+        var layer = L.circleMarker(latlng, PointsOfInterestMarker);
+
+        //build popup content string
+        var popupContent = "<p><b>Feature Name:</b> " + feature.properties.POINAME + "</p>";
+        popupContent += "<p><b>Park Name:</b> " + feature.properties.UNITNAME + "</p>";
+
+        //bind the popup to the circle marker
+        layer.bindPopup(popupContent, {
+            offset: new L.point(0, -1)
+        });
+
+        return layer;		
+    };
+
+
+var pointsofinterest = L.layerGroup(PointsOfInterest);
+var trails = L.layerGroup(Trails);
+
+//style counties layer
+function stylePointsOfInterest(feature){
+    return {
+        radius: 4,
+        fillColor: "#4D59F7",
+        color: "#EFEFEF",
+        weight: 1,
+        opacity: 0.8,
+        fillOpacity: 0.8,
+        zIndex: 600
+    };
+};
+
+//style districts layer
+function styleTrails(feature){
+    return {
+        fillColor: "#21F2F9",
+        opacity: 0.5,
+        weight: 0.5,
+        color: "black",
+        fillOpacity: 0.4,
+        zIndex: 400
+    };
+};
+
+function createMap(){
+    //create map object
+    var map = L.map("map", {
+        center: [44.7844, -89.7879],
+        zoom: 7,
+        minZoom: 3,
+        maxZoom: 12
+    });
+    
+	getData(map);
+};
+
+
+function otherLayers(response, map){ 
+    //add base tile layer
+    var light = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZW1pbGxpZ2FuIiwiYSI6ImNqczg0NWlxZTBia2U0NG1renZyZDR5YnUifQ.UxV3OqOsN6KuZsclo96yvQ', {
+        //map attribution
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+        //zoom
+        maxZoom: 18,
+        // mapbox light
+        id: 'mapbox.light',
+        //my unique access token
+        accessToken: 'pk.eyJ1IjoiZW1pbGxpZ2FuIiwiYSI6ImNqczg0NWlxZTBia2U0NG1renZyZDR5YnUifQ.UxV3OqOsN6KuZsclo96yvQ'
+    }),
+        streets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZW1pbGxpZ2FuIiwiYSI6ImNqczg0NWlxZTBia2U0NG1renZyZDR5YnUifQ.UxV3OqOsN6KuZsclo96yvQ', {
+        //map attribution
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+        //zoom
+        maxZoom: 18,
+        // mapbox streets
+        id: 'mapbox.streets',
+        //my unique access token
+        accessToken: 'pk.eyJ1IjoiZW1pbGxpZ2FuIiwiYSI6ImNqczg0NWlxZTBia2U0NG1renZyZDR5YnUifQ.UxV3OqOsN6KuZsclo96yvQ'
+    }).addTo(map);
+    
+    var counties = new L.geoJSON(Counties, {style:styleCounties}).addTo(map);
+    var districts = new L.geoJSON(Districts, {style:styleDistricts}).addTo(map);
+    
+    //add basemaps
+    var baseMaps = {
+        "Greyscale": light,
+        "Streets": streets,
+    };
+    //add new data layer
+    var overlayMaps = {
+        "Unified School Districts": districts,
+        "Counties": counties
+    };
+    //layer control
+    L.control.layers(baseMaps, overlayMaps, {collapsed:false}).addTo(map);
+    //bring schools layer to front right away
+    schools.bringToFront();
+    
+    //bring schools layer to the front every time overlay is changed
+    map.on("overlayadd", function (event) {
+        schools.bringToFront();
+    });
         
-    });  
-}
+    //search for a school
+    var searchControl = new L.Control.Search({
+        position: 'topright', //position on page
+        layer: schools,
+		propertyName: 'SCHOOL', //school column
+        textPlaceholder: 'Search School Name', //search by name of school
+        marker: {
+            icon: false
+        },
+        collapsed: false,
+		moveToLocation: function(latlng, title, map) {
+			//console.log(latlng);
+			zoom = 10;
+  			map.setView(latlng, zoom); // access the zoom
+		}
+    });
+    
+	searchControl.on('search:locationfound', function(e) {
+
+    //style the search icon result
+	e.layer.setStyle({fillColor: '#ffff00', color: '#ffff00', fillOpacity: 1});
+	if(e.layer._popup)
+        //open the popup for the selected school
+		e.layer.openPopup();
+	});
+	
+    //initialize search control
+    map.addControl(searchControl);
+    
+    
+    
+    //slider function
+    var range = document.getElementById('range');
+
+    //set up slider
+    noUiSlider.create(range, {
+        start: [ 50, 80 ], // Handle start position
+        step: 5, // Slider moves in increments of '10'
+        margin: 10, // Handles must be more than '10' apart
+        connect: true, // Display a colored bar between the handles
+        direction: 'rtl', // Put '0' at the bottom of the slider
+        orientation: 'vertical', // Orient the slider vertically
+        behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+        range: { // Slider can select '0' to '100'
+            'min': 30,
+            'max': 100
+        },
+        //style the filter slider tooltips
+        tooltips: true,
+        format: wNumb({
+                decimals: 0,
+                suffix: '% vaccinated'
+        })
+    });
+    
+    //sets min and max input values
+    document.getElementById('input-number-min').setAttribute("value", 30);
+    document.getElementById('input-number-max').setAttribute("value", 100);
+
+    var inputNumberMin = document.getElementById('input-number-min'),
+        inputNumberMax = document.getElementById('input-number-max');
+    
+    //when the input changes, set the slider value
+    inputNumberMin.addEventListener('change', function(){
+        range.noUiSlider.set([this.value, null]);
+    });
+    
+    //when the input changes, set the slider value
+    inputNumberMax.addEventListener('change', function(){
+        range.noUiSlider.set([null, this.value]);
+    });
+
+    //define what values are being called by the slider
+    range.noUiSlider.on('update', function( values, handle ) {
+        if (handle==0){
+            document.getElementById('input-number-min').setAttribute("value", values[0].split("%")[0]);
+        } else {
+            document.getElementById('input-number-max').setAttribute("value", values[1].split("%")[0]);
+        }
+        
+        rangeMin = Number(document.getElementById('input-number-min').getAttribute("value"));
+        rangeMax = Number(document.getElementById('input-number-max').getAttribute("value"));
+        
+        
+        schools.setStyle(function(feature){ 
+            return styleFilter(feature); 
+        });
+        
+        //remove interactivity from hidden points so they can't be clicked on
+        schools.eachLayer(function(layer){
+            if(!((+layer.feature.properties.PctMetMinRequirements_Vax <= rangeMax) && (+layer.feature.properties.PctMetMinRequirements_Vax >= rangeMin))){
+                //remove class='leaflet-interactive' from hidden points
+                L.DomUtil.removeClass(layer._path, 'leaflet-interactive');
+            }else{
+                //retain interactivity for visible points
+                L.DomUtil.addClass(layer._path, 'leaflet-interactive');
+            }
+        });
+
+        //make points that are not within the filter range invisible
+        function styleFilter(feature){
+            if(!((+feature.properties.PctMetMinRequirements_Vax <= rangeMax) && (+feature.properties.PctMetMinRequirements_Vax >= rangeMin))){
+                //invisible point styling
+                var styleHidden = {
+                    opacity: 0,
+                    fillOpacity: 0
+                };
+                return styleHidden;
+
+            }else{
+                //regular point styling
+                return schoolsMarker;
+            }
+        }
+        
+    });
+};
+
+$(document).ready(createMap);
 

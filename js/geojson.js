@@ -4,7 +4,7 @@
 function createMap(){
     
     //add OSM base tilelayer
-    var CartoDB_Positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    var CartoDB_Voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
 	   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 	   subdomains: 'abcd',
 	   maxZoom: 19
@@ -21,18 +21,10 @@ function createMap(){
 });
        
     var baseMaps = {
-    "Basic": CartoDB_Positron,
+    "Basic": CartoDB_Voyager,
     "Topographic": Esri_NatGeoWorldMap,
     "Streets": OpenStreetMap_Mapnik
     };
-        
-    var POIStyle = 
-        {color: "blue",
-		opacity: 0.25,
-		weight: 2,
-		fillOpacity: 0};
-    
-    //var PointsOfInterest = new L.GeoJSON.AJAX("data/NP_POI.geojson", {style: POIStyle});
     
     var PointsOfInterest = new L.geoJson();
 
@@ -40,12 +32,12 @@ function createMap(){
         dataType: "json",
         url: "data/NationalParks_POI.geojson",
         success: function(data) {
-            $(data.features).each(function(key, data) {
+            $(data.features).each(function(key, data, createPoints) {
                 PointsOfInterest.addData(data);
             });
         }
         })
-    
+
     var TrailStyle = 
         {color: "green",
 		opacity: 1,
@@ -53,6 +45,18 @@ function createMap(){
 		fillOpacity: 0};
     
     //var Trails = new L.GeoJSON.AJAX("data/NPTrails.geojson", {style: TrailStyle});
+    
+    var NationalParks = new L.geoJson();
+
+        $.ajax({
+        dataType: "json",
+        url: "data/NationalParks.geojson",
+        success: function(data) {
+            $(data.features).each(function(key, data, createPoints) {
+                NationalParks.addData(data);
+            });
+        }
+        })
     
     var Trails = new L.geoJson();
 
@@ -68,14 +72,15 @@ function createMap(){
     
     var overlayMaps = {
     "Points of Interest": PointsOfInterest,
-    "Trails": Trails
+    "Trails": Trails,
+    "Parks":NationalParks
 };
     
     //create the map
     var map = L.map('mapid', {
         center: [46.5, -100],
         zoom: 4,
-        layers: [CartoDB_Positron]
+        layers: [CartoDB_Voyager, NationalParks]
     });
       
     //call getData function
