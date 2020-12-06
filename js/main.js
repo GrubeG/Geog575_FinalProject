@@ -1,15 +1,12 @@
-//style schools
-var PointsOfInterest;
-
 //style school markers
-var NationalParksPoly = {
-    radius: 4,
-    fillColor: "#228B22",
-    color: "#EFEFEF",
-    weight: 1,
-    opacity: 0.8,
-    fillOpacity: 0.8,
-    zIndex: 600
+var NationalParksStyle = {
+    fillColor: "#56903A",
+    fill: true,
+    weight: 2,
+    opacity: 1,
+    color: '#213A1B',
+    dashArray: '3',
+    fillOpacity: 0.2
 };
 
 //style school markers
@@ -23,6 +20,16 @@ var PointsOfInterestMarker = {
     zIndex: 600
 };
 
+var TrailsStyle = {
+    fillColor: "#56903A",
+    fill: true,
+    weight: 2,
+    opacity: 1,
+    color: '#213A1B',
+    dashArray: '3',
+    fillOpacity: 0.2
+};
+
 //function to retrieve the data and place it on the map
 function getData(map){
     //load the data from the json
@@ -30,56 +37,22 @@ function getData(map){
         dataType: "json",
         success: function(response){
             
-            createPoints(response, map);
+            NationalParksPoly(response, map);
             otherLayers(response, map);
-		}
-    });
-
-
-    //load the data from the json
-    $.ajax("data/NationalParks_POI.geojson",  {
-        dataType: "json",
-        success: function(response){
-            
-            createPoints(response, map);
 		}
     });
         
 };
 
-function createPoints(data,map){
-        PointsOfInterest = L.geoJson(data, {
-                    pointToLayer: function (feature, latlng){
-                        return pointToLayer(feature, latlng);
-                    }
+function NationalParksPoly(data,map){
+        NationalParks = L.geoJson(data, {
+                    style: NationalParksStyle
                 });
-        map.addLayer(PointsOfInterest);
+        map.addLayer(NationalParks);
     };
-    
-    //create function to make the proportional symbols of a certain color, fill, opacity, etc
-    function pointToLayer(feature, latlng){	
-        var layer = L.circleMarker(latlng, PointsOfInterestMarker);
-
-        //build popup content string
-        var popupContent = "<p><b>Feature Name:</b> " + feature.properties.POINAME + "</p>";
-        popupContent += "<p><b>Park Name:</b> " + feature.properties.UNITNAME + "</p>";
-
-        //bind the popup to the circle marker
-        layer.bindPopup(popupContent, {
-            offset: new L.point(0, -1)
-        });
-
-        return layer;		
-    };
-
 
 
 function otherLayers(response, map){ 
-    
-    //bring schools layer to the front every time overlay is changed
-    map.on("overlayadd", function (event) {
-        PointsOfInterest.bringToFront();
-    });
         
     //search for a school
     var searchControl = new L.Control.Search({

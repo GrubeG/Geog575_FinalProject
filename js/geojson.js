@@ -16,7 +16,7 @@ function createMap(){
 });
     
     var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
-	maxZoom: 20,
+	maxZoom: 16,
 	attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
 });
        
@@ -26,56 +26,57 @@ function createMap(){
     "Imagery": USGS_USImagery
     };
     
-    var PointsOfInterest = new L.geoJson();
+//create icons
+//var StarIcon = L.icon({
+  //iconUrl: 'file:///C:/users/Greg/Geog575_FinalProject/img/reserve.png',
+  //iconSize: [25, 25]
+//});
 
-        $.ajax({
-        dataType: "json",
-        url: "data/NationalParks_POI.geojson",
-        success: function(data) {
-            $(data.features).each(function(key, data, createPoints) {
-                PointsOfInterest.addData(data);
-            });
-        }
-        })
-    
-//style points of interest layer
-function stylePointsOfInterest(feature){
-    return {
-        radius: 4,
-        fillColor: "#4D59F7",
-        color: "#EFEFEF",
-        weight: 1,
-        opacity: 0.8,
-        fillOpacity: 0.8,
-        zIndex: 600
-    };
-};
+//create markers with different icons
+function getPOIMarker(feature, latlng) {
+  return L.circleMarker(latlng, PointsOfInterestMarker);
+  };
 
-//style trails layer
-function styleTrails(feature){
-    return {
-        fillColor: "#21F2F9",
-        opacity: 0.5,
-        weight: 0.5,
-        color: "black",
-        fillOpacity: 0.4,
-        zIndex: 400
-    };
-};
+//attach popups to the markers
+function getPopup(feature, layer) {
+	layer.bindPopup("<strong>" + feature.properties.POINAME + "</strong><br/>" + feature.properties.UNITNAME + " " + feature.properties.REGIONCODE + ", " + feature.properties.CITY + "<br/>" + "<a target = _blank href=" +
+                feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
+}
+
+//create empty GeoJSON layers to be populated later
+var PointsOfInterest = L.geoJson(false, {
+    pointToLayer: getPOIMarker,
+    onEachFeature: getPopup
+})
+
+//populate GeoJSON layers with data from external files
+$.getJSON("data/NationalParks_POI.geojson", function(data) {
+    PointsOfInterest.addData(data);
+});
     
     //var Trails = new L.GeoJSON.AJAX("data/NPTrails.geojson", {style: TrailStyle});
-    
-    var Trails = new L.geoJson();
 
-        $.ajax({
-        dataType: "json",
-        url: "data/NPTrails.geojson",
-        success: function(data) {
-            $(data.features).each(function(key, data) {
-                Trails.addData(data);
-            });
-        }
-        })
+//create markers with different icons
+function getTrails(feature, latlng) {
+  return L.polyline(latlng, TrailsStyle);
+  };
+
+//attach popups to the markers
+function getPopup(feature, layer) {
+	layer.bindPopup("<strong>" + feature.properties.POINAME + "</strong><br/>" + feature.properties.UNITNAME + " " + feature.properties.REGIONCODE + ", " + feature.properties.CITY + "<br/>" + "<a target = _blank href=" +
+                feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
+}
+
+//create empty GeoJSON layers to be populated later
+var Trails = L.geoJson(false, {
+    pointToLayer: getTrails,
+    onEachFeature: getPopup
+})
+
+//populate GeoJSON layers with data from external files
+$.getJSON("data/NPTrails.geojson", function(data) {
+    Trails.addData(data);
+});
     
     var overlayMaps = {
     "Points of Interest": PointsOfInterest,
