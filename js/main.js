@@ -2,10 +2,21 @@
 var PointsOfInterest;
 
 //style school markers
+var NationalParksPoly = {
+    radius: 4,
+    fillColor: "#228B22",
+    color: "#EFEFEF",
+    weight: 1,
+    opacity: 0.8,
+    fillOpacity: 0.8,
+    zIndex: 600
+};
+
+//style school markers
 var PointsOfInterestMarker = {
     radius: 4,
-    fillColor: "#4D50F7",
-    color: "#EFEFEF",
+    fillColor: "#FFFF00",
+    color: "#228B22",
     weight: 1,
     opacity: 0.8,
     fillOpacity: 0.8,
@@ -15,13 +26,25 @@ var PointsOfInterestMarker = {
 //function to retrieve the data and place it on the map
 function getData(map){
     //load the data from the json
-    $.ajax("data/NationalParks_POI.geojson", {
+    $.ajax("data/NationalParks.geojson",  {
         dataType: "json",
         success: function(response){
+            
             createPoints(response, map);
             otherLayers(response, map);
 		}
     });
+
+
+    //load the data from the json
+    $.ajax("data/NationalParks_POI.geojson",  {
+        dataType: "json",
+        success: function(response){
+            
+            createPoints(response, map);
+		}
+    });
+        
 };
 
 function createPoints(data,map){
@@ -50,99 +73,20 @@ function createPoints(data,map){
     };
 
 
-var pointsofinterest = L.layerGroup(PointsOfInterest);
-var trails = L.layerGroup(Trails);
-
-//style counties layer
-function stylePointsOfInterest(feature){
-    return {
-        radius: 4,
-        fillColor: "#4D59F7",
-        color: "#EFEFEF",
-        weight: 1,
-        opacity: 0.8,
-        fillOpacity: 0.8,
-        zIndex: 600
-    };
-};
-
-//style districts layer
-function styleTrails(feature){
-    return {
-        fillColor: "#21F2F9",
-        opacity: 0.5,
-        weight: 0.5,
-        color: "black",
-        fillOpacity: 0.4,
-        zIndex: 400
-    };
-};
-
-function createMap(){
-    //create map object
-    var map = L.map("map", {
-        center: [44.7844, -89.7879],
-        zoom: 7,
-        minZoom: 3,
-        maxZoom: 12
-    });
-    
-	getData(map);
-};
-
 
 function otherLayers(response, map){ 
-    //add base tile layer
-    var light = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZW1pbGxpZ2FuIiwiYSI6ImNqczg0NWlxZTBia2U0NG1renZyZDR5YnUifQ.UxV3OqOsN6KuZsclo96yvQ', {
-        //map attribution
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
-        //zoom
-        maxZoom: 18,
-        // mapbox light
-        id: 'mapbox.light',
-        //my unique access token
-        accessToken: 'pk.eyJ1IjoiZW1pbGxpZ2FuIiwiYSI6ImNqczg0NWlxZTBia2U0NG1renZyZDR5YnUifQ.UxV3OqOsN6KuZsclo96yvQ'
-    }),
-        streets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZW1pbGxpZ2FuIiwiYSI6ImNqczg0NWlxZTBia2U0NG1renZyZDR5YnUifQ.UxV3OqOsN6KuZsclo96yvQ', {
-        //map attribution
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
-        //zoom
-        maxZoom: 18,
-        // mapbox streets
-        id: 'mapbox.streets',
-        //my unique access token
-        accessToken: 'pk.eyJ1IjoiZW1pbGxpZ2FuIiwiYSI6ImNqczg0NWlxZTBia2U0NG1renZyZDR5YnUifQ.UxV3OqOsN6KuZsclo96yvQ'
-    }).addTo(map);
-    
-    var counties = new L.geoJSON(Counties, {style:styleCounties}).addTo(map);
-    var districts = new L.geoJSON(Districts, {style:styleDistricts}).addTo(map);
-    
-    //add basemaps
-    var baseMaps = {
-        "Greyscale": light,
-        "Streets": streets,
-    };
-    //add new data layer
-    var overlayMaps = {
-        "Unified School Districts": districts,
-        "Counties": counties
-    };
-    //layer control
-    L.control.layers(baseMaps, overlayMaps, {collapsed:false}).addTo(map);
-    //bring schools layer to front right away
-    schools.bringToFront();
     
     //bring schools layer to the front every time overlay is changed
     map.on("overlayadd", function (event) {
-        schools.bringToFront();
+        PointsOfInterest.bringToFront();
     });
         
     //search for a school
     var searchControl = new L.Control.Search({
         position: 'topright', //position on page
-        layer: schools,
-		propertyName: 'SCHOOL', //school column
-        textPlaceholder: 'Search School Name', //search by name of school
+        layer: NationalParks,
+		propertyName: 'UNIT_NAME', //school column
+        textPlaceholder: 'Search Park Name', //search by name of school
         marker: {
             icon: false
         },
@@ -255,5 +199,4 @@ function otherLayers(response, map){
     });
 };
 
-$(document).ready(createMap);
 

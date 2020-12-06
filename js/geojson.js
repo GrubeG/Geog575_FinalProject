@@ -3,7 +3,7 @@
 //function to instantiate the Leaflet map
 function createMap(){
     
-    //add OSM base tilelayer
+    //add Carto base tilelayer
     var CartoDB_Voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
 	   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 	   subdomains: 'abcd',
@@ -15,15 +15,15 @@ function createMap(){
 	   maxZoom: 16
 });
     
-    var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	maxZoom: 19,
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+	maxZoom: 20,
+	attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
 });
        
     var baseMaps = {
     "Basic": CartoDB_Voyager,
     "Topographic": Esri_NatGeoWorldMap,
-    "Streets": OpenStreetMap_Mapnik
+    "Imagery": USGS_USImagery
     };
     
     var PointsOfInterest = new L.geoJson();
@@ -37,26 +37,33 @@ function createMap(){
             });
         }
         })
+    
+//style points of interest layer
+function stylePointsOfInterest(feature){
+    return {
+        radius: 4,
+        fillColor: "#4D59F7",
+        color: "#EFEFEF",
+        weight: 1,
+        opacity: 0.8,
+        fillOpacity: 0.8,
+        zIndex: 600
+    };
+};
 
-    var TrailStyle = 
-        {color: "green",
-		opacity: 1,
-		weight: 2,
-		fillOpacity: 0};
+//style trails layer
+function styleTrails(feature){
+    return {
+        fillColor: "#21F2F9",
+        opacity: 0.5,
+        weight: 0.5,
+        color: "black",
+        fillOpacity: 0.4,
+        zIndex: 400
+    };
+};
     
     //var Trails = new L.GeoJSON.AJAX("data/NPTrails.geojson", {style: TrailStyle});
-    
-    var NationalParks = new L.geoJson();
-
-        $.ajax({
-        dataType: "json",
-        url: "data/NationalParks.geojson",
-        success: function(data) {
-            $(data.features).each(function(key, data, createPoints) {
-                NationalParks.addData(data);
-            });
-        }
-        })
     
     var Trails = new L.geoJson();
 
@@ -72,21 +79,21 @@ function createMap(){
     
     var overlayMaps = {
     "Points of Interest": PointsOfInterest,
-    "Trails": Trails,
-    "Parks":NationalParks
+    "Trails": Trails
 };
     
     //create the map
     var map = L.map('mapid', {
         center: [46.5, -100],
         zoom: 4,
-        layers: [CartoDB_Voyager, NationalParks]
+        layers: [CartoDB_Voyager]
+        
     });
       
     //call getData function
     getData(map);
     
-    L.control.layers(baseMaps, overlayMaps).addTo(map);
+    L.control.layers(baseMaps, overlayMaps, {collapsed:false}).addTo(map);
 };
 
 $(document).ready(createMap);
