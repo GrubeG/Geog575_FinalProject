@@ -1,4 +1,4 @@
-/* Map of GeoJSON data from MegaCities.geojson */
+
 
 //function to instantiate the Leaflet map
 function createMap(){
@@ -38,15 +38,15 @@ function getPOIMarker(feature, latlng) {
   };
 
 //attach popups to the markers
-function getPopup(feature, layer) {
-	layer.bindPopup("<strong>" + feature.properties.POINAME + "</strong><br/>" + feature.properties.UNITNAME + " " + feature.properties.REGIONCODE + ", " + feature.properties.CITY + "<br/>" + "<a target = _blank href=" +
+function getPOIPopup(feature, layer) {
+	layer.bindPopup("<strong>" + feature.properties.POINAME + "</strong><br/>" + feature.properties.UNITNAME + ", Region: " + feature.properties.REGIONCODE + "<br/>" + "<a target = _blank href=" +
                 feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
 }
 
 //create empty GeoJSON layers to be populated later
 var PointsOfInterest = L.geoJson(false, {
     pointToLayer: getPOIMarker,
-    onEachFeature: getPopup
+    onEachFeature: getPOIPopup
 })
 
 //populate GeoJSON layers with data from external files
@@ -56,21 +56,26 @@ $.getJSON("data/NationalParks_POI.geojson", function(data) {
     
     //var Trails = new L.GeoJSON.AJAX("data/NPTrails.geojson", {style: TrailStyle});
 
-//create markers with different icons
-function getTrails(feature, latlng) {
-  return L.polyline(latlng, TrailsStyle);
-  };
+function TrailStyle(feature) {
+    return {
+        fillColor: '#E31A1C',
+        weight: 1,
+        opacity: 1,
+        color: '#C56C39',
+        dashArray: '2',
+        fillOpacity: 0.7
+    };
+}
 
 //attach popups to the markers
-function getPopup(feature, layer) {
-	layer.bindPopup("<strong>" + feature.properties.POINAME + "</strong><br/>" + feature.properties.UNITNAME + " " + feature.properties.REGIONCODE + ", " + feature.properties.CITY + "<br/>" + "<a target = _blank href=" +
-                feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
+function getTrailPopup(feature, layer) {
+	layer.bindPopup("<strong>" + feature.properties.TRLNAME + "</strong><br/>" + feature.properties.UNITNAME + " " + ", " + "<a target = _blank href=" + feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
 }
 
 //create empty GeoJSON layers to be populated later
 var Trails = L.geoJson(false, {
-    pointToLayer: getTrails,
-    onEachFeature: getPopup
+    style: TrailStyle,
+    onEachFeature: getTrailPopup
 })
 
 //populate GeoJSON layers with data from external files

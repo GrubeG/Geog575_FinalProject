@@ -5,7 +5,7 @@ var NationalParksStyle = {
     weight: 2,
     opacity: 1,
     color: '#213A1B',
-    dashArray: '3',
+    dashArray: '5',
     fillOpacity: 0.2
 };
 
@@ -13,21 +13,11 @@ var NationalParksStyle = {
 var PointsOfInterestMarker = {
     radius: 4,
     fillColor: "#FFFF00",
-    color: "#228B22",
+    color: "#213A1B",
     weight: 1,
     opacity: 0.8,
     fillOpacity: 0.8,
     zIndex: 600
-};
-
-var TrailsStyle = {
-    fillColor: "#56903A",
-    fill: true,
-    weight: 2,
-    opacity: 1,
-    color: '#213A1B',
-    dashArray: '3',
-    fillOpacity: 0.2
 };
 
 //function to retrieve the data and place it on the map
