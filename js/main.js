@@ -36,15 +36,22 @@ function getData(map){
 
 function NationalParksPoly(data,map){
         NationalParks = L.geoJson(data, {
-                    style: NationalParksStyle
-                });
+            style: NationalParksStyle,
+            onEachFeature: getParkPopup
+            });
+    
         map.addLayer(NationalParks);
     };
+
+//attach popups to the markers
+function getParkPopup(feature, layer) {
+	layer.bindPopup("<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<a target = _blank href=" + feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
+}
 
 
 function otherLayers(response, map){ 
         
-    //search for a school
+    //search for a park
     var searchControl = new L.Control.Search({
         position: 'topright', //position on page
         layer: NationalParks,
@@ -62,7 +69,7 @@ function otherLayers(response, map){
     
 	searchControl.on('search:locationfound', function(e) {
 
-    //style the search icon result
+    //style the search result
 	e.layer.setStyle({fillColor: '#56903A', color: '#213A1B', fillOpacity: 0.2});
 	if(e.layer._popup)
         //open the popup for the selected park
