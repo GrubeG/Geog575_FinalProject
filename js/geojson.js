@@ -41,6 +41,8 @@ function getPOIMarker(feature, latlng) {
 function getPOIPopup(feature, layer) {
 	layer.bindPopup("<strong>" + feature.properties.POINAME + "</strong><br/>" + feature.properties.UNITNAME + ", Region: " + feature.properties.REGIONCODE + "<br/>" + "<a target = _blank href=" +
                 feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
+    layer.on('mouseover', function() { layer.openPopup(); });
+    layer.on('mouseout', function() { layer.closePopup(); });
 }
 
 //create empty GeoJSON layers to be populated later
