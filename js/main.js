@@ -48,15 +48,14 @@ function otherLayers(response, map){
     var searchControl = new L.Control.Search({
         position: 'topright', //position on page
         layer: NationalParks,
-		propertyName: 'UNIT_NAME', //school column
-        textPlaceholder: 'Search Park Name', //search by name of school
-        marker: {
-            icon: false
-        },
+		propertyName: 'UNIT_NAME', //name column
+        textPlaceholder: 'Search Park Name', //search by park name
+        marker: false,
         collapsed: false,
+        initial: true,
 		moveToLocation: function(latlng, title, map) {
 			//console.log(latlng);
-			zoom = 10;
+			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
   			map.setView(latlng, zoom); // access the zoom
 		}
     });
@@ -64,10 +63,15 @@ function otherLayers(response, map){
 	searchControl.on('search:locationfound', function(e) {
 
     //style the search icon result
-	e.layer.setStyle({fillColor: '#ffff00', color: '#ffff00', fillOpacity: 1});
+	e.layer.setStyle({fillColor: '#56903A', color: '#213A1B', fillOpacity: 0.2});
 	if(e.layer._popup)
-        //open the popup for the selected school
+        //open the popup for the selected park
 		e.layer.openPopup();
+	}).on('search:collapsed', function(e) {
+
+		NationalParks.eachLayer(function(layer) {	//restore feature color
+			NationalParks.resetStyle(layer);
+		});	
 	});
 	
     //initialize search control
