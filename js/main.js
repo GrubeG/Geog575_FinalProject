@@ -12,7 +12,7 @@ var NationalParksStyle = {
 //style school markers
 var PointsOfInterestMarker = {
     radius: 4,
-    fillColor: "#FFFF00",
+    fillColor: "#f7fcb9",
     color: "#213A1B",
     weight: 1,
     opacity: 0.8,

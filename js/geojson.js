@@ -58,7 +58,36 @@ $.getJSON("data/NationalParks_POI.geojson", function(data) {
     
     //var Trails = new L.GeoJSON.AJAX("data/NPTrails.geojson", {style: TrailStyle});
 
-function TrailStyle(feature) {
+function BestTrailStyle(feature) {
+    return {
+        fillColor: '#E31A1C',
+        weight: 3,
+        opacity: 1,
+        color: '#6F4930',
+        dashArray: '5',
+        fillOpacity: 0.7
+    };
+}
+
+//attach popups to the markers
+function getTrailPopup(feature, layer) {
+	layer.bindPopup("<strong>" + feature.properties.TRLNAME + "</strong><br/>" + feature.properties.UNITNAME + " " + ", " + "<a target = _blank href=" + feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
+    layer.on('mouseover', function() { layer.openPopup(); });
+    layer.on('mouseout', function() { layer.closePopup(); });
+}
+
+//create empty GeoJSON layers to be populated later
+var BestTrails = L.geoJson(false, {
+    style: BestTrailStyle,
+    onEachFeature: getTrailPopup
+})
+
+//populate GeoJSON layers with data from external files
+$.getJSON("data/NP_BestTrails.geojson", function(data) {
+    BestTrails.addData(data);
+});
+    
+function AllTrailStyle(feature) {
     return {
         fillColor: '#E31A1C',
         weight: 1,
@@ -69,25 +98,20 @@ function TrailStyle(feature) {
     };
 }
 
-//attach popups to the markers
-function getTrailPopup(feature, layer) {
-	layer.bindPopup("<strong>" + feature.properties.TRLNAME + "</strong><br/>" + feature.properties.UNITNAME + " " + ", " + "<a target = _blank href=" + feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
-}
-
 //create empty GeoJSON layers to be populated later
-var Trails = L.geoJson(false, {
-    style: TrailStyle,
-    onEachFeature: getTrailPopup
+var AllTrails = L.geoJson(false, {
+    style: AllTrailStyle
 })
 
 //populate GeoJSON layers with data from external files
 $.getJSON("data/NPTrails.geojson", function(data) {
-    Trails.addData(data);
+    AllTrails.addData(data);
 });
     
     var overlayMaps = {
     "Points of Interest": PointsOfInterest,
-    "Trails": Trails
+    "Best Trails": BestTrails,    
+    "All Trails": AllTrails
 };
     
     //create the map
