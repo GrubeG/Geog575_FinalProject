@@ -41,6 +41,11 @@ function NationalParksPoly(data,map){
             });
     
         map.addLayer(NationalParks);
+        map.on('click',function(event){
+            map.setView(event.latlng,8);
+    });
+    
+    map.fitBounds(NationalParks.getBounds());
     };
 
 //attach popups to the markers
