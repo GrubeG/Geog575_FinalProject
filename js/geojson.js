@@ -116,8 +116,8 @@ $.getJSON("data/NPTrails.geojson", function(data) {
     
     //create the map
     var map = L.map('mapid', {
-        center: [46.5, -100],
-        zoom: 4,
+        center: [37.5, -118],
+        zoom: 3,
         layers: [CartoDB_Voyager]
         
     });
