@@ -37,7 +37,8 @@ function getData(map){
 function NationalParksPoly(data, map){
         NationalParks = L.geoJson(data, {
             style: NationalParksStyle,
-            onEachFeature: onEachFeature
+            //onEachFeature: onEachFeature,
+            onEachFeature: getParkPopup
             });
 
       
@@ -51,10 +52,9 @@ function onEachFeature (feature, layer) {
 }
 
 //attach popups to the markers
-function getParkPopup(feature, layer, map) {
+function getParkPopup(feature, layer) {
     
-	this.bindPopup("<strong>" + this.feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + this.feature.properties.YEAR + "<br/>" + "<a target = _blank href=" + this.feature.properties.URL + ">" + this.feature.properties.URLDISPLAY + "</a>").openPopup();
-       
+	layer.bindPopup("<strong>" + layer.feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + layer.feature.properties.YEAR + "<br/>" + "<a target = _blank href=" + layer.feature.properties.URL + ">" + layer.feature.properties.URLDISPLAY + "</a>").openPopup();      
 }
 };
 
