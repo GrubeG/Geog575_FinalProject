@@ -34,25 +34,29 @@ function getData(map){
         
 };
 
-function NationalParksPoly(data,map){
+function NationalParksPoly(data, map){
         NationalParks = L.geoJson(data, {
             style: NationalParksStyle,
-            onEachFeature: getParkPopup
+            onEachFeature: onEachFeature
             });
-    
-        map.addLayer(NationalParks);
-        map.on('click',function(event){
-            map.setView(event.latlng,8);
-    });
-    
-    map.fitBounds(NationalParks.getBounds());
-    };
 
-//attach popups to the markers
-function getParkPopup(feature, layer) {
-	layer.bindPopup("<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<a target = _blank href=" + feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
+      
+function onLayerClick () {
+    map.once('moveend', getParkPopup, this);
+    map.fitBounds(this.getBounds());
+}
+    
+function onEachFeature (feature, layer) {
+    layer.on('click', onLayerClick);
 }
 
+//attach popups to the markers
+function getParkPopup(feature, layer, map) {
+    
+	this.bindPopup("<strong>" + this.feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + this.feature.properties.YEAR + "<br/>" + "<a target = _blank href=" + this.feature.properties.URL + ">" + this.feature.properties.URLDISPLAY + "</a>").openPopup();
+       
+}
+};
 
 function otherLayers(response, map){ 
         
