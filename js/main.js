@@ -23,7 +23,7 @@ var PointsOfInterestMarker = {
 //function to retrieve the data and place it on the map
 function getData(map){
     //load the data from the json
-    $.ajax("data/NationalParks.geojson",  {
+    $.ajax("data/EJmap.geojson",  {
         dataType: "json",
         success: function(response){
             
@@ -42,19 +42,20 @@ function NationalParksPoly(data, map){
             });
 
       
-function onLayerClick () {
-    map.once('moveend', getParkPopup, this);
-    map.fitBounds(this.getBounds());
-}
+//function onLayerClick () {
+    //map.once('moveend', getParkPopup, this);
+    //map.fitBounds(this.getBounds());
+//}
     
-function onEachFeature (feature, layer) {
-    layer.on('click', onLayerClick);
-}
+//function onEachFeature (feature, layer) {
+//    layer.on('click', onLayerClick);
+//}
 
 //attach popups to the markers
 function getParkPopup(feature, layer) {
     
-	layer.bindPopup("<strong>" + layer.feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + layer.feature.properties.YEAR + "<br/>" + "<a target = _blank href=" + layer.feature.properties.URL + ">" + layer.feature.properties.URLDISPLAY + "</a>").openPopup();      
+	layer.bindPopup("<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>"
+    ).openPopup();      
 }
 };
 
