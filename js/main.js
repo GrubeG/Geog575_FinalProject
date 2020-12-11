@@ -54,7 +54,7 @@ function NationalParksPoly(data, map){
 //attach popups to the markers
 function getParkPopup(feature, layer) {
     
-	layer.bindPopup("<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>"
+	layer.bindPopup("<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>", {maxHeight: 700, minWidth:400}
     ).openPopup();      
 }
 };
