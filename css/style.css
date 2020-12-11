@@ -1,7 +1,7 @@
 /* Stylesheet by Greg Grube, 2020 */
  #mapid {
     height: 700px;
-    width: 74%;
+    width: 75%;
     display: inline-block;
 }
 
@@ -40,7 +40,7 @@
 }
 
 #panel {
-    width: 25%;
+    width: 23%;
     height: 100%;
     padding: 10px;
     position:absolute;

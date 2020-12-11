@@ -16,36 +16,9 @@ var PointsOfInterestMarker = {
     color: "#213A1B",
     weight: 1,
     opacity: 0.8,
-    fillOpacity: 0.8,
+    fillOpacity: 1,
     zIndex: 600
 };
-
-//function onLayerClick () {
-//    map.once('moveend', getParkPopup, this);
-//    map.fitBounds(this.getBounds());
-//}
-    
-//function onEachFeature (feature, layer) {
-//    layer.on('click', onLayerClick);
-//}
-
-//attach popups to the markers
-function getParkPopup(feature, layer) {
-    
-	//layer.bindPopup("<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>", {maxHeight: 700, minWidth:400}
-    //).openPopup();
-    
-    layer.on('click', function (e) {
-            document.getElementById("panel2").innerHTML = "<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>", {maxHeight: 700, minWidth:400}
-            $("#panel2").stop();
-            $("#panel2").fadeIn("fast");
-
-            console.log(feature.properties.UNIT_NAME);
-            // This is your click handler. 
-            // Your feature is available here as e.target, and the 
-            //featureInfo object we added is available as e.target.featureInfo 
-        });
-}
 
 //function to retrieve the data and place it on the map
 function getData(map){
@@ -63,9 +36,27 @@ function getData(map){
 function NationalParksPoly(data, map){
         NationalParks = L.geoJson(data, {
             style: NationalParksStyle,
-            //onEachFeature: onEachFeature,
             onEachFeature: getParkPopup
             });
+
+//attach popups to the markers
+function getParkPopup(feature, layer) {
+    
+	//layer.bindPopup("<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>", {maxHeight: 700, minWidth:400}
+    //).openPopup();
+    
+    // This is your click handler. Place elements in the panel
+    layer.on('click', function (e) {
+            document.getElementById("panel2").innerHTML = "<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>", {maxHeight: 700, minWidth:400}
+            $("#panel2").stop();
+            $("#panel2").fadeIn("fast");
+        
+            map.fitBounds(layer.getBounds());
+
+            console.log(feature.properties.UNIT_NAME);
+             
+        });
+}
 };
 
 function otherLayers(response, map){ 
