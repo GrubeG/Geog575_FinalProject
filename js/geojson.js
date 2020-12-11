@@ -121,11 +121,16 @@ $.getJSON("data/NPTrails.geojson", function(data) {
         layers: [CartoDB_Voyager]
         
     });
+    
       
     //call getData function
     getData(map);
     
     L.control.layers(baseMaps, overlayMaps, {collapsed:false}).addTo(map);
+    
+
 };
+
+
 
 $(document).ready(createMap);

@@ -12,6 +12,7 @@
 		place these within <script> or <style> tags-->
     <link rel="stylesheet" href="lib/leaflet/leaflet.css"/>
     <link rel="stylesheet" href="lib/leaflet/leaflet-search-master/dist/leaflet-search.src.css"/>
+    <link rel="stylesheet" href="lib/leaflet/leaflet-sidebar-master/src/L.Control.Sidebar.css"/>
     <link rel="stylesheet" href="css/style.css"/>
     
 	
@@ -20,15 +21,19 @@
     
 <div id="mapid"></div>
     
-<div id="panel" class="text1">
-    <h3>National Parks</h3>
-    		<h5><p>Park Title  </p>
-            <p>Park Description </p>
-            <p>Park Description 2</p>
+<div id="panel">
+        <h2>National Parks of the United States</h2>
+
+        <p>Since Yellowstone became the first National Park in 1872, the United States has set aside lands for both conservation and public enjoyment. As of 2020, there are 62 parks, each with their own story. Explore the map and get to know them better!</p>
+
+        <p><b>Click on each park to get more information or use the search function to zoom to a particular location. Turn on Points of Interest and Trails and hover over each location to get more information.</b></p>
+
     
-    		<p><i>Link to more information</p></h5> 
-        
-</div>           
+        <div id="panel2">
+            
+        </div> 
+    
+    </div>         
 
 
 
@@ -47,6 +52,7 @@
     <script type="text/javascript" src="lib/leaflet/leaflet-src.js"></script>
     <script type="text/javascript" src="lib/leaflet/leaflet-providers.js"></script>
     <script type="text/javascript" src="lib/leaflet/leaflet-search-master/dist/leaflet-search.src.js"></script>
+    <script type="text/javascript" src="lib/leaflet/leaflet-sidebar-master/src/L.Control.Sidebar.js"></script>
     <script type="text/javascript" src="js/geojson.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     

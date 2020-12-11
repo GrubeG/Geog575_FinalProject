@@ -1,7 +1,7 @@
 /* Stylesheet by Greg Grube, 2020 */
  #mapid {
     height: 700px;
-    width: 75%;
+    width: 74%;
     display: inline-block;
 }
 
@@ -40,7 +40,7 @@
 }
 
 #panel {
-    width: 23%;
+    width: 25%;
     height: 100%;
     padding: 10px;
     position:absolute;
@@ -52,6 +52,13 @@
     font-family: "Open Sans", Arial, sans-serif;
     line-height: 20px;
     border: 2px solid rgba(0,0,0,0.4);
+}
+
+#panel2 {
+    background-color: rgba(200,220,190,0.8);
+    font-family: "Open Sans", Arial, sans-serif;
+    
+    
 }
 
 .text-container {
