@@ -84,11 +84,7 @@ function otherLayers(response, map){
 	if(e.layer._popup)
         //open the popup for the selected park
 		e.layer.openPopup();
-	}).on('search:collapsed', function(e) {
-
-		NationalParks.eachLayer(function(layer) {	//restore feature color
-			NationalParks.resetStyle(layer);
-		});	
+		
 	});
 	
     //initialize search control
