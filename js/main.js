@@ -1,3 +1,4 @@
+var NationalParks;
 //style school markers
 var NationalParksStyle = {
     fillColor: "#56903A",
@@ -90,35 +91,33 @@ function otherLayers(response, map){
     //initialize search control
     map.addControl(searchControl);
     
-    
-    
     //slider function
     var range = document.getElementById('range');
 
     //set up slider
     noUiSlider.create(range, {
-        start: [ 50, 80 ], // Handle start position
-        step: 5, // Slider moves in increments of '10'
-        margin: 10, // Handles must be more than '10' apart
+        start: [ 1872, 2020 ], // Handle start position
+        step: 4, // Slider moves in increments of '10'
+        margin: 4, // Handles must be more than '10' apart
         connect: true, // Display a colored bar between the handles
-        direction: 'rtl', // Put '0' at the bottom of the slider
-        orientation: 'vertical', // Orient the slider vertically
+        direction: 'ltr', // Put '0' at the bottom of the slider
+        orientation: 'horizontal', // Orient the slider vertically
         behaviour: 'tap-drag', // Move handle on tap, bar is draggable
         range: { // Slider can select '0' to '100'
-            'min': 30,
-            'max': 100
+            'min': 1872,
+            'max': 2020
         },
         //style the filter slider tooltips
         tooltips: true,
         format: wNumb({
                 decimals: 0,
-                suffix: '% vaccinated'
+                //suffix: ' Parks'
         })
     });
     
     //sets min and max input values
-    document.getElementById('input-number-min').setAttribute("value", 30);
-    document.getElementById('input-number-max').setAttribute("value", 100);
+    document.getElementById('input-number-min').setAttribute("value", 1872);
+    document.getElementById('input-number-max').setAttribute("value", 2020);
 
     var inputNumberMin = document.getElementById('input-number-min'),
         inputNumberMax = document.getElementById('input-number-max');
@@ -134,45 +133,50 @@ function otherLayers(response, map){
     });
 
     //define what values are being called by the slider
-    range.noUiSlider.on('update', function( values, handle ) {
+    range.noUiSlider.on('update', function(values, handle) {
         if (handle==0){
-            document.getElementById('input-number-min').setAttribute("value", values[0].split("%")[0]);
+            document.getElementById('input-number-min').setAttribute("value", values[0]);
+            
         } else {
-            document.getElementById('input-number-max').setAttribute("value", values[1].split("%")[0]);
+            document.getElementById('input-number-max').setAttribute("value", values[1]);
         }
+        
+        console.log(values)
         
         rangeMin = Number(document.getElementById('input-number-min').getAttribute("value"));
         rangeMax = Number(document.getElementById('input-number-max').getAttribute("value"));
         
+        console.log(rangeMin)
+        console.log(rangeMax)
         
-        schools.setStyle(function(feature){ 
+        NationalParks.setStyle(function(feature){ 
             return styleFilter(feature); 
         });
         
         //remove interactivity from hidden points so they can't be clicked on
-        schools.eachLayer(function(layer){
-            if(!((+layer.feature.properties.PctMetMinRequirements_Vax <= rangeMax) && (+layer.feature.properties.PctMetMinRequirements_Vax >= rangeMin))){
-                //remove class='leaflet-interactive' from hidden points
-                L.DomUtil.removeClass(layer._path, 'leaflet-interactive');
-            }else{
-                //retain interactivity for visible points
-                L.DomUtil.addClass(layer._path, 'leaflet-interactive');
-            }
-        });
+        //NationalParks.eachLayer(function(layer){
+        //    if(!((+layer.feature.properties.YEAR <= rangeMax) && (+layer.feature.properties.YEAR >= rangeMin))){
+        //        //remove class='leaflet-interactive' from hidden points
+        //        L.DomUtil.removeClass(layer._path, 'leaflet-interactive');
+        //    }else{
+        //        //retain interactivity for visible points
+        //        L.DomUtil.addClass(layer._path, 'leaflet-interactive');
+        //    }
+        //});
 
         //make points that are not within the filter range invisible
         function styleFilter(feature){
-            if(!((+feature.properties.PctMetMinRequirements_Vax <= rangeMax) && (+feature.properties.PctMetMinRequirements_Vax >= rangeMin))){
+            if(!((+feature.properties.YEAR <= rangeMax) && (+feature.properties.YEAR >= rangeMin))){
                 //invisible point styling
                 var styleHidden = {
                     opacity: 0,
-                    fillOpacity: 0
+                    fillOpacity: 0.2
                 };
                 return styleHidden;
 
             }else{
                 //regular point styling
-                return schoolsMarker;
+                return NationalParksStyle;
             }
         }
         
