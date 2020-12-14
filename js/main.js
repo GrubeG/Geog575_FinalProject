@@ -6,7 +6,7 @@ var NationalParksStyle = {
     weight: 2,
     opacity: 1,
     color: '#213A1B',
-    dashArray: '5',
+    dashArray: '3',
     fillOpacity: 0.2
 };
 
@@ -72,7 +72,7 @@ function otherLayers(response, map){
         collapsed: false,
         initial: true,
 		moveToLocation: function(latlng, title, map) {
-			//console.log(latlng);
+			
 			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
   			map.setView(latlng, zoom); // access the zoom
 		}
@@ -105,13 +105,14 @@ function otherLayers(response, map){
         behaviour: 'tap-drag', // Move handle on tap, bar is draggable
         range: { // Slider can select '0' to '100'
             'min': 1872,
-            'max': 2020
+            'max': 2020,
         },
+        snap: false,
         //style the filter slider tooltips
         tooltips: true,
         format: wNumb({
                 decimals: 0,
-                //suffix: ' Parks'
+                //suffix: '- Parks'
         })
     });
     

@@ -39,8 +39,7 @@ function getPOIMarker(feature, latlng) {
 
 //attach popups to the markers
 function getPOIPopup(feature, layer) {
-	layer.bindPopup("<strong>" + feature.properties.POINAME + "</strong><br/>" + feature.properties.UNITNAME + ", Region: " + feature.properties.REGIONCODE + "<br/>" + "<a target = _blank href=" +
-                feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
+	layer.bindPopup("<strong>" + feature.properties.POINAME + "</strong><br/>" + feature.properties.UNITNAME);
     layer.on('mouseover', function() { layer.openPopup(); });
     layer.on('mouseout', function() { layer.closePopup(); });
 }
@@ -64,14 +63,14 @@ function BestTrailStyle(feature) {
         weight: 3,
         opacity: 1,
         color: '#6F4930',
-        dashArray: '5',
+        dashArray: '2',
         fillOpacity: 0.7
     };
 }
 
 //attach popups to the markers
 function getTrailPopup(feature, layer) {
-	layer.bindPopup("<strong>" + feature.properties.TRLNAME + "</strong><br/>" + feature.properties.UNITNAME + " " + ", " + "<a target = _blank href=" + feature.properties.URL + ">" + feature.properties.URLDISPLAY + "</a>");
+	layer.bindPopup("<strong>" + feature.properties.TRLNAME + "</strong><br/>" + feature.properties.UNITNAME);
     layer.on('mouseover', function() { layer.openPopup(); });
     layer.on('mouseout', function() { layer.closePopup(); });
 }
