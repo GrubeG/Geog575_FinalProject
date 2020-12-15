@@ -82,7 +82,6 @@ function otherLayers(response, map){
 	searchControl.on('search:locationfound', function(e) {
 
     //style the search result
-	e.layer.setStyle({fillColor: '#56903A', color: '#213A1B', fillOpacity: 0.2});
 	if(e.layer._popup)
         //open the popup for the selected park
 		e.layer.openPopup();

@@ -77,7 +77,7 @@
     width: 75%;
     height: 45px;
     padding: 1px;
-    background-color: rgba(197, 108, 57, 0.8);
+    background-color: rgba(197, 108, 57, 0.6);
     display: inline-block;
     font-size: 10px;
     vertical-align: top;
@@ -119,5 +119,18 @@
 
 #input-number-min {
   display: none;
+}
+
+.table {
+    margin: 0 0px 0 0;
+    padding: 0;
+    display: inline-block;
+    line-height: 1em;
+    font-size: 9px;
+    
+}
+
+.table, th, td {
+  border: 1px solid #213A1B;
 }
 

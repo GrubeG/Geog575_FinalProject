@@ -63,7 +63,7 @@ function BestTrailStyle(feature) {
         weight: 3,
         opacity: 1,
         color: '#6F4930',
-        dashArray: '2',
+        dashArray: '3',
         fillOpacity: 0.7
     };
 }
