@@ -7,13 +7,13 @@ var NationalParksStyle = {
     opacity: 1,
     color: '#213A1B',
     dashArray: '3',
-    fillOpacity: 0.2
+    fillOpacity: 0.1
 };
 
 var NationalParksReset = {
     fillColor: "#56903A",
     fill: true,
-    fillOpacity: 0.2
+    fillOpacity: 0.1
 };
 
 var highlight = {
@@ -74,8 +74,6 @@ function getParkPopup(feature, layer) {
         
             map.fitBounds(layer.getBounds());
         
-            
-    
             };
     
     // This is your click handler. Place elements in the panel
@@ -199,7 +197,7 @@ function otherLayers(response, map){
                 //invisible point styling
                 var styleHidden = {
                     opacity: 0,
-                    fillOpacity: 0.2
+                    fillOpacity: 0.1
                 };
                 return styleHidden;
 
