@@ -10,6 +10,18 @@ var NationalParksStyle = {
     fillOpacity: 0.2
 };
 
+var NationalParksReset = {
+    fillColor: "#56903A",
+    fill: true,
+    fillOpacity: 0.2
+};
+
+var highlight = {
+    fillColor: "#56903A",
+    fill: true,
+    fillOpacity: 0.4
+};
+
 //style school markers
 var PointsOfInterestMarker = {
     radius: 4,
@@ -46,17 +58,34 @@ function getParkPopup(feature, layer) {
 	//layer.bindPopup("<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>", {maxHeight: 700, minWidth:400}
     //).openPopup();
     
-    // This is your click handler. Place elements in the panel
-    layer.on('click', function (e) {
+    
+    function selectfeature (e) {
+        
+            NationalParks.setStyle(NationalParksReset);
+
+            layer.setStyle(highlight);
+
+            layer.bringToBack()
+            
             document.getElementById("panel2").innerHTML = "<strong><u>" + feature.properties.UNIT_NAME + "</strong></u><br/>" + "Year Established: " + "<i>" + feature.properties.dateEst + "</i>" + "<br/>" + "Acreage: " + "<i>" + feature.properties.acres + "</i>" + "<br/>" + "Visitors in 2019: " +  "<i>" + feature.properties.visitors + "</i>" + "<br/>" + "<img src='" + feature.properties.imgurl + "'>" + feature.properties.desc
         
             $("#panel2").stop();
             $("#panel2").fadeIn("fast");
         
             map.fitBounds(layer.getBounds());
-
+        
+            
+    
+            };
+    
+    // This is your click handler. Place elements in the panel
+    layer.on({
+        click: selectfeature,
+    }); 
+    
              
-        });
+             
+            
 }
 };
 
