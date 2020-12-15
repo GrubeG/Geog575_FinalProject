@@ -43,9 +43,10 @@
     width: 25%;
     height: 100%;
     padding: 10px;
+    font-size: 12px;
     position:absolute;
     overflow: scroll;
-    background-color: rgba(200,220,190,0.8);
+    background-color: rgba(200,220,190,1);
     display: inline-block;
     vertical-align: top;
     text-align: center;
@@ -56,6 +57,7 @@
 
 #panel2 {
     background-color: rgba(200,220,190,0.8);
+    font-size: 12px;
     font-family: "Open Sans", Arial, sans-serif;   
 }
 

@@ -24,7 +24,7 @@ var PointsOfInterestMarker = {
 //function to retrieve the data and place it on the map
 function getData(map){
     //load the data from the json
-    $.ajax("data/EJmap.geojson",  {
+    $.ajax("data/EJmap2.geojson",  {
         dataType: "json",
         success: function(response){
             
@@ -48,7 +48,8 @@ function getParkPopup(feature, layer) {
     
     // This is your click handler. Place elements in the panel
     layer.on('click', function (e) {
-            document.getElementById("panel2").innerHTML = "<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>", {maxHeight: 700, minWidth:400}
+            document.getElementById("panel2").innerHTML = "<strong><u>" + feature.properties.UNIT_NAME + "</strong></u><br/>" + "Year Established: " + "<i>" + feature.properties.dateEst + "</i>" + "<br/>" + "Acreage: " + "<i>" + feature.properties.acres + "</i>" + "<br/>" + "Visitors in 2019: " +  "<i>" + feature.properties.visitors + "</i>" + "<br/>" + "<img src='" + feature.properties.imgurl + "'>" + feature.properties.desc
+        
             $("#panel2").stop();
             $("#panel2").fadeIn("fast");
         
