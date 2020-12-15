@@ -40,7 +40,7 @@
 }
 
 #panel {
-    width: 23%;
+    width: 25%;
     height: 100%;
     padding: 10px;
     position:absolute;
@@ -72,14 +72,16 @@
   }
 
 #controls {
-    width: 74%;
-    height: 22px;
-    padding: 7px;
+    width: 75%;
+    height: 45px;
+    padding: 1px;
     background-color: rgba(197, 108, 57, 0.8);
     display: inline-block;
+    font-size: 10px;
     vertical-align: top;
-    text-align: center;
+    text-align: left;
     line-height: 20px;
+    border: 2px solid rgba(0,0,0,0.4);
 }
 
 #range {
@@ -98,6 +100,11 @@
 
 .leaflet-popup-content p {
     margin: 0.2em 0;
+}
+
+.leaflet-popup-container p {
+    margin: 0.2em 0;
+    
 }
 
 .noUi-connect {
