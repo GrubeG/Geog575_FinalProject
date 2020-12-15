@@ -24,7 +24,7 @@ var PointsOfInterestMarker = {
 //function to retrieve the data and place it on the map
 function getData(map){
     //load the data from the json
-    $.ajax("data/EJmap.geojson",  {
+    $.ajax("data/EJmap2.geojson",  {
         dataType: "json",
         success: function(response){
             
@@ -55,7 +55,6 @@ function getParkPopup(feature, layer) {
         
             map.fitBounds(layer.getBounds());
 
-            console.log(feature.properties.UNIT_NAME);
              
         });
 }
