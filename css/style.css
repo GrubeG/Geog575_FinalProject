@@ -1,7 +1,7 @@
 /* Stylesheet by Greg Grube, 2020 */
  #mapid {
     height: 700px;
-    width: 75%;
+    width: 70%;
     display: inline-block;
 }
 
@@ -16,7 +16,7 @@
 }
 
 #panel {
-    width: 25%;
+    width: 30%;
     height: 100%;
     padding: 10px;
     font-size: 12px;
@@ -53,7 +53,7 @@
   }
 
 #controls {
-    width: 75%;
+    width: 70%;
     height: 45px;
     padding: 1px;
     background-color: rgba(197, 108, 57, 0.6);
@@ -66,7 +66,7 @@
 }
 
 #range {
-    width: 69%;
+    width: 65%;
     margin: 0 auto 30px;
     position: left;
     z-index: 500;
@@ -74,7 +74,7 @@
     font-size: 12px;
     position: fixed;
     top: 88%;
-    left: 3%;
+    left: 2.5%;
     position:absolute;
 }
 
