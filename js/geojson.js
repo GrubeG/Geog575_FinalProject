@@ -154,9 +154,9 @@ var buttons = [
     ).addTo(map);
     
      // Add easy button to pull up splash screen
-    L.easyButton('<img src="img/noun_Information.svg">', function(){
+    L.easyButton('<img src="img/noun_TableView.svg">', function(){
         $("#panel2").html(old_html);
-    },'Show Complete List of Parks',{ position: 'topright' }).addTo(map);
+    },'View List of Parks',{ position: 'topright' }).addTo(map);
     
 
 };
