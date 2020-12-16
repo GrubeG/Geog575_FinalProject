@@ -33,6 +33,8 @@ var PointsOfInterestMarker = {
     zIndex: 600
 };
 
+var old_html = $("#panel2").html();
+
 //function to retrieve the data and place it on the map
 function getData(map){
     //load the data from the json
@@ -67,7 +69,7 @@ function getParkPopup(feature, layer) {
 
             layer.bringToBack()
             
-            document.getElementById("panel2").innerHTML = "<strong><u><span class='bigger'>" + feature.properties.UNIT_NAME + "</strong></u></span><br/>" + "Year Established: " + "<i>" + feature.properties.dateEst + "</i>" + "<br/>" + "Acreage: " + "<i>" + feature.properties.acres + "</i>" + "<br/>" + "Visitors in 2019: " +  "<i>" + feature.properties.visitors + "</i>" + "<br/>" + "<img src='" + feature.properties.imgurl + "'>" + feature.properties.desc_
+            document.getElementById("panel2").innerHTML = "<strong><u><span class='bigger'>" + feature.properties.UNIT_NAME + "</strong></u></span><br/>" + "Year Established: " + "<i>" + feature.properties.dateEst + "</i>" + "<br/>" + "Acreage: " + "<i>" + feature.properties.acres + "</i>" + "<br/>" + "Visitors in 2019: " +  "<i>" + feature.properties.visitors + "</i>" + "<br/>" + "<img src='" + feature.properties.imgurl + "'>" + "<br/>" + feature.properties.desc_
         
             $("#panel2").stop();
             $("#panel2").fadeIn("fast");
@@ -124,16 +126,42 @@ function otherLayers(response, map){
     noUiSlider.create(range, {
         start: [ 1872, 2020 ], // Handle start position
         step: 4, // Slider moves in increments of '10'
-        margin: 4, // Handles must be more than '10' apart
+        //margin: 4, // Handles must be more than '10' apart
         connect: true, // Display a colored bar between the handles
         direction: 'ltr', // Put '0' at the bottom of the slider
         orientation: 'horizontal', // Orient the slider vertically
         behaviour: 'tap-drag', // Move handle on tap, bar is draggable
         range: { // Slider can select '0' to '100'
             'min': 1872,
+            '3.475': 1877,
+            '6.175': 1881,
+            '8.875': 1885,
+            '11.575': 1889,
+            '14.275':1893,
+            '16.975': 1897,
+            '19.675': 1901,
+            '25.075': 1909,
+            '27.775': 1913,
+            '33.175': 1921,
+            '34.525': 1923,
+            '38.575': 1929,
+            '41.275': 1933,
+            '49.375': 1945,
+            '54.775': 1953,
+            '60.175': 1961,
+            '61.525': 1963,
+            '65.575': 1969,
+            '68.95': 1974,
+            '70.975': 1977,
+            '73.675': 1981,
+            '79.075': 1989,
+            '81.775': 1993,
+            '87.175': 2001,
+            '92.575': 2009,
+            '97.975': 2017,       
             'max': 2020,
         },
-        snap: false,
+        snap: true,
         //style the filter slider tooltips
         tooltips: true,
         format: wNumb({
