@@ -26,12 +26,16 @@ function createMap(){
     "Imagery": USGS_USImagery
     };
     
-//create icons
-//var StarIcon = L.icon({
-  //iconUrl: 'file:///C:/users/Greg/Geog575_FinalProject/img/reserve.png',
-  //iconSize: [25, 25]
-//});
-
+var PointsOfInterestMarker = {
+    radius: 4,
+    fillColor: "#f7fcb9",
+    color: "#213A1B",
+    weight: 1,
+    opacity: 0.8,
+    fillOpacity: 1,
+    zIndex: 600
+};
+    
 //create markers with different icons
 function getPOIMarker(feature, latlng) {
   return L.circleMarker(latlng, PointsOfInterestMarker);
@@ -60,11 +64,11 @@ $.getJSON("data/NationalParks_POI.geojson", function(data) {
 function BestTrailStyle(feature) {
     return {
         fillColor: '#E31A1C',
-        weight: 3,
+        weight: 4,
         opacity: 1,
         color: '#6F4930',
-        dashArray: '3',
-        fillOpacity: 0.7
+        dashArray: '4',
+        fillOpacity: 0.9
     };
 }
 

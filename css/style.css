@@ -57,9 +57,9 @@ h3 {
   border:1px solid rgba(0,0,0,0.4);
   }
 
-#controls {
+#sources {
     width: 70%;
-    height: 45px;
+    height: 47px;
     padding: 1px;
     background-color: rgba(197, 108, 57, 0.6);
     display: inline-block;

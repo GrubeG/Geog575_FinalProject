@@ -22,17 +22,6 @@ var highlight = {
     fillOpacity: 0.4
 };
 
-//style school markers
-var PointsOfInterestMarker = {
-    radius: 4,
-    fillColor: "#f7fcb9",
-    color: "#213A1B",
-    weight: 1,
-    opacity: 0.8,
-    fillOpacity: 1,
-    zIndex: 600
-};
-
 var old_html = $("#panel2").html();
 
 //function to retrieve the data and place it on the map
