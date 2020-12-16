@@ -30,8 +30,8 @@ var PointsOfInterestMarker = {
     radius: 4,
     fillColor: "#f7fcb9",
     color: "#213A1B",
-    weight: 1,
-    opacity: 0.8,
+    weight: 1.5,
+    opacity: 0.7,
     fillOpacity: 1,
     zIndex: 600
 };
@@ -68,7 +68,7 @@ function BestTrailStyle(feature) {
         opacity: 1,
         color: '#6F4930',
         dashArray: '4',
-        fillOpacity: 0.9
+        fillOpacity: 0.7
     };
 }
 
