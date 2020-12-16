@@ -36,7 +36,7 @@ var PointsOfInterestMarker = {
 //function to retrieve the data and place it on the map
 function getData(map){
     //load the data from the json
-    $.ajax("data/EJmap2.geojson",  {
+    $.ajax("data/NationalParks.geojson",  {
         dataType: "json",
         success: function(response){
             
