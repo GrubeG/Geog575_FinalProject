@@ -67,7 +67,7 @@ function getParkPopup(feature, layer) {
 
             layer.bringToBack()
             
-            document.getElementById("panel2").innerHTML = "<strong><u>" + feature.properties.UNIT_NAME + "</strong></u><br/>" + "Year Established: " + "<i>" + feature.properties.dateEst + "</i>" + "<br/>" + "Acreage: " + "<i>" + feature.properties.acres + "</i>" + "<br/>" + "Visitors in 2019: " +  "<i>" + feature.properties.visitors + "</i>" + "<br/>" + "<img src='" + feature.properties.imgurl + "'>" + feature.properties.desc
+            document.getElementById("panel2").innerHTML = "<strong><u>" + feature.properties.UNIT_NAME + "</strong></u><br/>" + "Year Established: " + "<i>" + feature.properties.dateEst + "</i>" + "<br/>" + "Acreage: " + "<i>" + feature.properties.acres + "</i>" + "<br/>" + "Visitors in 2019: " +  "<i>" + feature.properties.visitors + "</i>" + "<br/>" + "<img src='" + feature.properties.imgurl + "'>" + feature.properties.desc_
         
             $("#panel2").stop();
             $("#panel2").fadeIn("fast");
