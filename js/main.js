@@ -1,5 +1,5 @@
 var NationalParks;
-//style school markers
+//style National Park polygons
 var NationalParksStyle = {
     fillColor: "#56903A",
     fill: true,
@@ -22,9 +22,10 @@ var highlight = {
     fillOpacity: 0.4
 };
 
+//Save original table view for later use
 var old_html = $("#panel2").html();
 
-//function to retrieve the data and place it on the map
+//function to retrieve the park data and place it on the map
 function getData(map){
     //load the data from the json
     $.ajax("data/NationalParks.geojson",  {
@@ -43,12 +44,8 @@ function NationalParksPoly(data, map){
             onEachFeature: getParkPopup
             });
 
-//attach popups to the markers
+//Code to get pop-up message, place it in the panel and zoom to location
 function getParkPopup(feature, layer) {
-    
-	//layer.bindPopup("<strong>" + feature.properties.UNIT_NAME + "</strong><br/>" + "Year Created: " + feature.properties.YEAR + "<br/>" + "<img src='" + feature.properties.imgurl + "'>", {maxHeight: 700, minWidth:400}
-    //).openPopup();
-    
     
     function selectfeature (e) {
         
@@ -67,17 +64,15 @@ function getParkPopup(feature, layer) {
         
             };
     
-    // This is your click handler. Place elements in the panel
+    //Click handler. Place elements in the panel
     layer.on({
         click: selectfeature,
     }); 
-    
-             
-             
             
 }
 };
 
+//Search and Slider bar code
 function otherLayers(response, map){ 
         
     //search for a park
@@ -95,46 +90,37 @@ function otherLayers(response, map){
   			map.setView(latlng, zoom); // access the zoom
 		}
     });
-    
-	searchControl.on('search:locationfound', function(e) {
-
-    //style the search result
-	if(e.layer._popup)
-        //open the popup for the selected park
-		e.layer.openPopup();
-		
-	});
 	
     //initialize search control
     map.addControl(searchControl);
     
     // Array of easy buttons for areas outside continental US
-var buttons = [
-  L.easyButton('<img src="img/noun_Home_Symbol.svg">', function(){
-      map.setView([39.5, -97], 4);
-  },'Zoom to Original Extent',{ position: 'topleft' }),
+    var buttons = [
+          L.easyButton('<img src="img/noun_Home_Symbol.svg">', function(){
+              map.setView([39.5, -97], 4);
+          },'Zoom to Original Extent',{ position: 'topleft' }),
 
-  L.easyButton('<span>AK</span>', function(){
-      map.setView([63.144912, -152.541399], 5);
-  },'Zoom to Alaska',{ position: 'topleft' }),
+          L.easyButton('<span>AK</span>', function(){
+              map.setView([63.144912, -152.541399], 5);
+          },'Zoom to Alaska',{ position: 'topleft' }),
 
-  L.easyButton('<span>HI</span>', function(){
-      map.setView([20.5, -156.959362], 7);
-  },'Zoom to Hawaii',{ position: 'topleft' }),
+          L.easyButton('<span>HI</span>', function(){
+              map.setView([20.5, -156.959362], 7);
+          },'Zoom to Hawaii',{ position: 'topleft' }),
 
-  L.easyButton('<span>VI</span>', function(){
-       map.setView([18, -64.727032], 10);
-   },'Zoom to U.S. Virgin Islands',{ position: 'topleft' }),
+          L.easyButton('<span>VI</span>', function(){
+               map.setView([18, -64.727032], 10);
+           },'Zoom to U.S. Virgin Islands',{ position: 'topleft' }),
+
+          L.easyButton('<span>AS</span>', function(){
+               map.setView([-14.251697, -170.116709], 9);
+           },'Zoom to American Samoa',{ position: 'topleft' }),
+    ];
+        L.easyBar(buttons, { position: 'topleft' }
+
+        ).addTo(map);
     
-  L.easyButton('<span>AS</span>', function(){
-       map.setView([-14.251697, -170.116709], 9);
-   },'Zoom to American Samoa',{ position: 'topleft' }),
-];
-    L.easyBar(buttons, { position: 'topleft' }
-                
-    ).addTo(map);
-    
-     // Add easy button to pull up splash screen
+     // Add easy button to return to the table view
     L.easyButton('<img src="img/noun_TableView.svg">', function(){
         $("#panel2").html(old_html);
     },'Show List of Parks',{ position: 'topright' }).addTo(map);
@@ -146,12 +132,12 @@ var buttons = [
     noUiSlider.create(range, {
         start: [ 1872, 2020 ], // Handle start position
         step: 4, // Slider moves in increments of '10'
-        //margin: 4, // Handles must be more than '10' apart
+        //margin: 4, // Used for linear scale
         connect: true, // Display a colored bar between the handles
         direction: 'ltr', // Put '0' at the bottom of the slider
         orientation: 'horizontal', // Orient the slider vertically
         behaviour: 'tap-drag', // Move handle on tap, bar is draggable
-        range: { // Slider can select '0' to '100'
+        range: { // Slider can select '0' to '100.' Designed for steps by presidential year.
             'min': 1872,
             '3.475': 1877,
             '6.175': 1881,
@@ -227,22 +213,11 @@ var buttons = [
         NationalParks.setStyle(function(feature){ 
             return styleFilter(feature); 
         });
-        
-        //remove interactivity from hidden points so they can't be clicked on
-        //NationalParks.eachLayer(function(layer){
-        //    if(!((+layer.feature.properties.YEAR <= rangeMax) && (+layer.feature.properties.YEAR >= rangeMin))){
-        //        //remove class='leaflet-interactive' from hidden points
-        //        L.DomUtil.removeClass(layer._path, 'leaflet-interactive');
-        //    }else{
-        //        //retain interactivity for visible points
-        //        L.DomUtil.addClass(layer._path, 'leaflet-interactive');
-        //    }
-        //});
 
-        //make points that are not within the filter range invisible
+        //make polygons that are not within the filter range lose outlines.
         function styleFilter(feature){
             if(!((+feature.properties.YEAR <= rangeMax) && (+feature.properties.YEAR >= rangeMin))){
-                //invisible point styling
+                //alternate polygon styling
                 var styleHidden = {
                     opacity: 0,
                     fillOpacity: 0.1
@@ -250,7 +225,7 @@ var buttons = [
                 return styleHidden;
 
             }else{
-                //regular point styling
+                //regular polygon styling
                 return NationalParksStyle;
             }
         }

@@ -1,330 +1,245 @@
- //function to convert markers to circle markers
-function pointToLayer(feature, latlng, attributes){
-    //Determine which attribute to visualize with proportional symbols
-    var attribute = attributes[0];
-    //check
-    console.log(attribute);
-    
-    //create marker options
-    var options = {
-        fillColor: "#ff7800",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
-
-    //For each feature, determine its value for the selected attribute
-    var attValue = Number(feature.properties[attribute]);
-
-    //Give each feature's circle marker a radius based on its attribute value
-    options.radius = calcPropRadius(attValue);
-
-    //create circle marker layer
-    var layer = L.circleMarker(latlng, options);
-
-    createPopup(feature.properties, attribute, layer, options.radius);
-
-    //event listeners to open popup on hover
-    layer.on({
-        mouseover: function(){
-            this.openPopup();
-        },
-        mouseout: function(){
-            this.closePopup();
-        }
-    });
-
-    //return the circle marker to the L.geoJson pointToLayer option
-    return layer;
-}
-
-function createPopup(properties, attribute, layer, radius){
-    //add city to popup content string
-    var popupContent = "<p><b>City:</b> " + properties.MCD_NAME + "</p>";
-
-    //add formatted attribute to panel content string
-    var year = attribute.split("_")[1];
-    popupContent += "<p><b>Population in " + year + ":</b> " + properties[attribute];
-
-    //replace the layer popup
-    layer.bindPopup(popupContent, {
-        offset: new L.Point(0,-radius)
-    });
+var NationalParks;
+//style National Park polygons
+var NationalParksStyle = {
+    fillColor: "#56903A",
+    fill: true,
+    weight: 2,
+    opacity: 1,
+    color: '#213A1B',
+    dashArray: '3',
+    fillOpacity: 0.1
 };
 
-    //calculate the radius of each proportional symbol
-function calcPropRadius(attValue) {
-    //scale factor to adjust symbol size evenly
-    var scaleFactor = .005;
-    //area based on attribute value and scale factor
-    var area = attValue * scaleFactor;
-    //radius calculated based on area
-    var radius = Math.sqrt(area/Math.PI);
-
-    return radius;
-}
-
-//Add circle markers for point features to the map
-function createPropSymbols(data, map, attributes){
-    //create a Leaflet GeoJSON layer and add it to the map
-    L.geoJson(data, {
-        pointToLayer: function(feature, latlng){
-            return pointToLayer(feature, latlng, attributes);
-        }
-    }).addTo(map);
-}
-
-//Step 1: Create new sequence controls
-function createSequenceControls(map, attributes){
-    var SequenceControl = L.Control.extend({
-        options: {
-            position: 'bottomright'
-        },
-
-        onAdd: function (map) {
-            // create the control container div with a particular class name
-            var container = L.DomUtil.create('div', 'sequence-control-container');
-
-            //create range input element (slider)
-            $(container).append('<input class="range-slider" type="range">');
-            
-            //add skip buttons
-            $(container).append('<button class="skip" id="reverse" title="Reverse">Reverse</button>');
-            $(container).append('<button class="skip" id="forward" title="Forward">Skip</button>');
-            
-            //kill any mouse event listeners on the map
-            $(container).on('mousedown dblclick', function(e){
-                L.DomEvent.stopPropagation(e);
-                });
-
-            return container;
-        }
-    });
-
-    map.addControl(new SequenceControl());   
-    
-    //create range input element (slider)
-    //$('#panel').append('<input class="range-slider" type="range">');
-    
-    //set slider attributes
-    $('.range-slider').attr({
-        max: 8,
-        min: 0,
-        value: 0,
-        step: 1
-    });
-    
-    //below Example 3.4...add skip buttons
-    $('#text').append('<button class="skip" id="reverse">Previous</button>');
-    $('#text').append('<button class="skip" id="forward">Next</button>');
-    
-    //Below Example 3.5...replace button content with images
-    $('#reverse').html('<img src="img/reverse.png">');
-    $('#forward').html('<img src="img/forward.png">');
-    
-    //Below Example 3.6 in createSequenceControls()
-    //Step 5: click listener for buttons
-    $('.skip').click(function(){
-        //get the old index value
-        var index = $('.range-slider').val();
-
-        //Step 6: increment or decrement depending on button clicked
-        if ($(this).attr('id') == 'forward'){
-            index++;
-            //Step 7: if past the last attribute, wrap around to first attribute
-            index = index > 8 ? 0 : index;
-        } else if ($(this).attr('id') == 'reverse'){
-            index--;
-            //Step 7: if past the first attribute, wrap around to last attribute
-            index = index < 0 ? 8 : index;
-        }
-
-        //Step 8: update slider
-        $('.range-slider').val(index);
-        updatePropSymbols(map, attributes[index]);
-        console.log(index);
-        
-
-    });
-
-    //Step 5: input listener for slider
-    $('.range-slider').on('input', function(){
-        //Step 6: get the new index value
-        var index = $(this).val();
-        updatePropSymbols(map, attributes[index]);
-        console.log(index);
-        
-    });
+var NationalParksReset = {
+    fillColor: "#56903A",
+    fill: true,
+    fillOpacity: 0.1
 };
 
-function createLegend(map, attributes){
-    var LegendControl = L.Control.extend({
-        options: {
-            position: 'bottomleft'
-        },
-
-        onAdd: function (map) {
-            // create the control container with a particular class name
-            var container = L.DomUtil.create('div', 'legend-control-container');
-
-            //add temporal legend div to container
-            $(container).append('<div id="temporal-legend">')
-
-            //Step 1: start attribute legend svg string
-            var svg = '<svg id="attribute-legend" width="160px" height="80px">';
-            
-            //array of circle names to base loop on
-            var circles = {
-                max: 15,
-                mean: 40,
-                min: 65
-            };
-
-            //Step 2: loop to add each circle and text to svg string
-            for (var circle in circles){
-            //circle string
-            svg += '<circle class="legend-circle" id="' + circle + 
-            '" fill="#F47821" fill-opacity="0.8" stroke="#000000" cx="40"/>';
-            
-            //text string
-            svg += '<text id="' + circle + '-text" x="85" y="' + circles[circle] + '"></text>';
-            };
-
-            //close svg string
-            svg += "</svg>";
-
-            //add attribute legend svg to container
-            $(container).append(svg);
-
-            return container;
-        }
-    });
-
-    map.addControl(new LegendControl());
-    
-    updateLegend(map, attributes[0]);
+var highlight = {
+    fillColor: "#56903A",
+    fill: true,
+    fillOpacity: 0.4
 };
 
-//Calculate the max, mean, and min values for a given attribute
-function getCircleValues(map, attribute){
-    //start with min at highest possible and max at lowest possible number
-    var min = Infinity,
-        max = -Infinity;
+//Save original table view for later use
+var old_html = $("#panel2").html();
 
-    map.eachLayer(function(layer){
-        //get the attribute value
-        if (layer.feature){
-            var attributeValue = Number(layer.feature.properties[attribute]);
-
-            //test for min
-            if (attributeValue < min){
-                min = attributeValue;
-            };
-
-            //test for max
-            if (attributeValue > max){
-                max = attributeValue;
-            };
-        };
-    });
-
-    //set mean
-    var mean = (max + min) / 2;
-
-    //return values as an object
-    return {
-        max: max,
-        mean: mean,
-        min: min
-    };
-};
-
-//Update the legend with new attribute
-function updateLegend(map, attribute){
-    //create content for legend
-    var year = attribute.split("_")[1];
-    var content = "Population in " + year;
-
-    //replace legend content
-    $('#temporal-legend').html(content);
-    
-    //get the max, mean, and min values as an object
-    var circleValues = getCircleValues(map, attribute);
-    
-    for (var key in circleValues){
-        //get the radius
-        var radius = calcPropRadius(circleValues[key]);
-
-        //Step 3: assign the cy and r attributes
-        $('#'+key).attr({
-            cy: 70 - radius,
-            r: radius
-        });
-        
-        //Step 4: add legend text
-        $('#'+key+'-text').text(Math.round(circleValues[key]*100)/100);
-    };
-};
-
-
-
-//Step 10: Resize proportional symbols according to new attribute values
-function updatePropSymbols(map, attribute){
-    map.eachLayer(function(layer){
-        if (layer.feature && layer.feature.properties[attribute]){
-            //access feature properties
-            var props = layer.feature.properties;
-
-            //update each feature's radius based on new attribute values
-            var radius = calcPropRadius(props[attribute]);
-            layer.setRadius(radius);  
-            
-            createPopup(props, attribute, layer, radius);
-            updateLegend(map, attribute);
-        }
-                
-    });
-}
-
-
-//Above Example 3.8...Step 3: build an attributes array from the data
-function processData(data){
-    //empty array to hold attributes
-    var attributes = [];
-
-    //properties of the first feature in the dataset
-    var properties = data.features[0].properties;
-
-    //push each attribute name into attributes array
-    for (var attribute in properties){
-        //only take attributes with population values
-        if (attribute.indexOf("Pop") > -1){
-            attributes.push(attribute);
-        }
-    }
-
-    //check result
-    console.log(attributes);
-
-    return attributes;
-}
-
-//Import GeoJSON data
+//function to retrieve the park data and place it on the map
 function getData(map){
-    //load the data
-    $.ajax("data/WisCities.geojson", {
+    //load the data from the json
+    $.ajax("data/NationalParks.geojson",  {
         dataType: "json",
         success: function(response){
-            //create an attributes array
-            var attributes = processData(response);
             
-            //call function to create proportional symbols
-            createPropSymbols(response, map, attributes);
-            createSequenceControls(map, attributes);
-            createLegend(map, attributes);
+            NationalParksPoly(response, map);
+            otherLayers(response, map);
+		}
+    });       
+};
+
+function NationalParksPoly(data, map){
+        NationalParks = L.geoJson(data, {
+            style: NationalParksStyle,
+            onEachFeature: getParkPopup
+            });
+
+//Code to get pop-up message, place it in the panel and zoom to location
+function getParkPopup(feature, layer) {
+    
+    function selectfeature (e) {
+        
+            NationalParks.setStyle(NationalParksReset);
+
+            layer.setStyle(highlight);
+
+            layer.bringToBack()
             
-            console.log(attributes)
-        }
-    });
+            document.getElementById("panel2").innerHTML = "<strong><u><span class='bigger'>" + feature.properties.UNIT_NAME + "</strong></u></span><br/>" + "Year Established: " + "<i>" + feature.properties.dateEst + "</i>" + "<br/>" + "Acreage: " + "<i>" + feature.properties.acres + "</i>" + "<br/>" + "Visitors in 2019: " +  "<i>" + feature.properties.visitors + "</i>" + "<br/>" + "<img src='" + feature.properties.imgurl + "'>" + "<br/>" + feature.properties.desc_
+        
+            $("#panel2").stop();
+            $("#panel2").fadeIn("fast");
+        
+            map.fitBounds(layer.getBounds());
+        
+            };
+    
+    //Click handler. Place elements in the panel
+    layer.on({
+        click: selectfeature,
+    }); 
+            
 }
+};
+
+//Search and Slider bar code
+function otherLayers(response, map){ 
+        
+    //search for a park
+    var searchControl = new L.Control.Search({
+        position: 'topright', //position on page
+        layer: NationalParks,
+		propertyName: 'UNIT_NAME', //name column
+        textPlaceholder: 'Search Park Name', //search by park name
+        marker: false,
+        collapsed: false,
+        initial: true,
+		moveToLocation: function(latlng, title, map) {
+			
+			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+  			map.setView(latlng, zoom); // access the zoom
+		}
+    });
+	
+    //initialize search control
+    map.addControl(searchControl);
+    
+    // Array of easy buttons for areas outside continental US
+    var buttons = [
+          L.easyButton('<img src="img/noun_Home_Symbol.svg">', function(){
+              map.setView([39.5, -97], 4);
+          },'Zoom to Original Extent',{ position: 'topleft' }),
+
+          L.easyButton('<span>AK</span>', function(){
+              map.setView([63.144912, -152.541399], 5);
+          },'Zoom to Alaska',{ position: 'topleft' }),
+
+          L.easyButton('<span>HI</span>', function(){
+              map.setView([20.5, -156.959362], 7);
+          },'Zoom to Hawaii',{ position: 'topleft' }),
+
+          L.easyButton('<span>VI</span>', function(){
+               map.setView([18, -64.727032], 10);
+           },'Zoom to U.S. Virgin Islands',{ position: 'topleft' }),
+
+          L.easyButton('<span>AS</span>', function(){
+               map.setView([-14.251697, -170.116709], 9);
+           },'Zoom to American Samoa',{ position: 'topleft' }),
+    ];
+        L.easyBar(buttons, { position: 'topleft' }
+
+        ).addTo(map);
+    
+     // Add easy button to return to the table view
+    L.easyButton('<img src="img/noun_TableView.svg">', function(){
+        $("#panel2").html(old_html);
+    },'Show List of Parks',{ position: 'topright' }).addTo(map);
+    
+    //slider function
+    var range = document.getElementById('range');
+
+    //set up slider
+    noUiSlider.create(range, {
+        start: [ 1872, 2020 ], // Handle start position
+        step: 4, // Slider moves in increments of '10'
+        //margin: 4, // Used for linear scale
+        connect: true, // Display a colored bar between the handles
+        direction: 'ltr', // Put '0' at the bottom of the slider
+        orientation: 'horizontal', // Orient the slider vertically
+        behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+        range: { // Slider can select '0' to '100.' Designed for steps by presidential year.
+            'min': 1872,
+            '3.475': 1877,
+            '6.175': 1881,
+            '8.875': 1885,
+            '11.575': 1889,
+            '14.275':1893,
+            '16.975': 1897,
+            '19.675': 1901,
+            '25.075': 1909,
+            '27.775': 1913,
+            '33.175': 1921,
+            '34.525': 1923,
+            '38.575': 1929,
+            '41.275': 1933,
+            '49.375': 1945,
+            '54.775': 1953,
+            '60.175': 1961,
+            '61.525': 1963,
+            '65.575': 1969,
+            '68.95': 1974,
+            '70.975': 1977,
+            '73.675': 1981,
+            '79.075': 1989,
+            '81.775': 1993,
+            '87.175': 2001,
+            '92.575': 2009,
+            '97.975': 2017,       
+            'max': 2020,
+        },
+        snap: true,
+        //style the filter slider tooltips
+        tooltips: true,
+        format: wNumb({
+                decimals: 0,
+                //suffix: '- Parks'
+        })
+    });
+    
+    //sets min and max input values
+    document.getElementById('input-number-min').setAttribute("value", 1872);
+    document.getElementById('input-number-max').setAttribute("value", 2020);
+
+    var inputNumberMin = document.getElementById('input-number-min'),
+        inputNumberMax = document.getElementById('input-number-max');
+    
+    //when the input changes, set the slider value
+    inputNumberMin.addEventListener('change', function(){
+        range.noUiSlider.set([this.value, null]);
+    });
+    
+    //when the input changes, set the slider value
+    inputNumberMax.addEventListener('change', function(){
+        range.noUiSlider.set([null, this.value]);
+    });
+
+    //define what values are being called by the slider
+    range.noUiSlider.on('update', function(values, handle) {
+        if (handle==0){
+            document.getElementById('input-number-min').setAttribute("value", values[0]);
+            
+        } else {
+            document.getElementById('input-number-max').setAttribute("value", values[1]);
+        }
+        
+        console.log(values)
+        
+        rangeMin = Number(document.getElementById('input-number-min').getAttribute("value"));
+        rangeMax = Number(document.getElementById('input-number-max').getAttribute("value"));
+        
+        console.log(rangeMin)
+        console.log(rangeMax)
+        
+        NationalParks.setStyle(function(feature){ 
+            return styleFilter(feature); 
+        });
+        
+        //remove interactivity from hidden points so they can't be clicked on
+        //NationalParks.eachLayer(function(layer){
+        //    if(!((+layer.feature.properties.YEAR <= rangeMax) && (+layer.feature.properties.YEAR >= rangeMin))){
+        //        //remove class='leaflet-interactive' from hidden points
+        //        L.DomUtil.removeClass(layer._path, 'leaflet-interactive');
+        //    }else{
+        //        //retain interactivity for visible points
+        //        L.DomUtil.addClass(layer._path, 'leaflet-interactive');
+        //    }
+        //});
+
+        //make points that are not within the filter range invisible
+        function styleFilter(feature){
+            if(!((+feature.properties.YEAR <= rangeMax) && (+feature.properties.YEAR >= rangeMin))){
+                //invisible point styling
+                var styleHidden = {
+                    opacity: 0,
+                    fillOpacity: 0.1
+                };
+                return styleHidden;
+
+            }else{
+                //regular point styling
+                return NationalParksStyle;
+            }
+        }
+        
+    });
+};
