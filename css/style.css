@@ -37,7 +37,8 @@
     font-size: 12px;
     color: #213A1B;
     border: 1px solid rgba(0,0,0,0.4);
-    font-family: "Open Sans", Arial, sans-serif;   
+    font-family: "Open Sans", Arial, sans-serif;
+    width: 100%;
 }
 
 h3 {
@@ -59,7 +60,7 @@ h3 {
 
 #sources {
     width: 70%;
-    height: 47px;
+    height: 5%;
     padding: 1px;
     background-color: rgba(197, 108, 57, 0.6);
     display: inline-block;
@@ -68,6 +69,8 @@ h3 {
     text-align: center;
     line-height: 20px;
     border: 2px solid rgba(0,0,0,0.7);
+    top: 93%;
+    left: 0%;
 }
 
 #range {
@@ -80,7 +83,7 @@ h3 {
     position: fixed;
     top: 88%;
     left: 2.5%;
-    position:absolute;
+    
 }
 
 
@@ -110,14 +113,18 @@ h3 {
     padding: 0;
     display: inline-block;
     line-height: 1em;
-    font-size: 9.9px;
-    font-family: "Verdana", Arial, serif;   
-}
-
-.table, th, td {
-    border: 1px solid #213A1B;
+    font-size: 9.0px;
+    font-family: "Verdana", Arial, serif; 
+    table-layout: fixed;
     
 }
+
+.table, td {
+    border: 1px solid #213A1B;
+    text-align: center;
+    width: 100%;
+}
+
 
 /*** L.easyButton ***/
 .leaflet-bar button,
