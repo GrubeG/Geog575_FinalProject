@@ -93,13 +93,30 @@ h3 {
     font-size: 9.0px;
     font-family: "Verdana", Arial, serif; 
     table-layout: fixed;
+    width: 100%;
     
 }
 
 .table, td {
     border: 1px solid #213A1B;
     text-align: center;
-    width: 100%;
+    
+}
+
+.p {
+  width: 52%;
+}
+
+.s {
+  width: 5%;
+}
+
+.y {
+  width: 5%;
+}
+
+.o {
+  width: 43%;
 }
 
 /*** L.easyButton ***/

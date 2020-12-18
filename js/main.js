@@ -202,13 +202,9 @@ function otherLayers(response, map){
             document.getElementById('input-number-max').setAttribute("value", values[1]);
         }
         
-        console.log(values)
         
         rangeMin = Number(document.getElementById('input-number-min').getAttribute("value"));
         rangeMax = Number(document.getElementById('input-number-max').getAttribute("value"));
-        
-        console.log(rangeMin)
-        console.log(rangeMax)
         
         NationalParks.setStyle(function(feature){ 
             return styleFilter(feature); 
